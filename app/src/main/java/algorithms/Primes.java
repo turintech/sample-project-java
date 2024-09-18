@@ -37,20 +37,26 @@ public class Primes {
     return sum;
   }
 
-  /**
+/**
    * Finds all primes factors of a number
    *
    * @param n The number to find the prime factors of.
    * @return An vector of all prime factors of n.
-   */
+   */ 
   public static Vector<Integer> PrimeFactors(int n) {
     Vector<Integer> ret = new Vector<Integer>();
 
-    for (int i = 2; i < n; i++) {
-      if (n % i == 0 && IsPrime(i)) {
+    for (int i = 2; i * i <= n; i++) {
+      while (n % i == 0) {
         ret.add(i);
+        n /= i;
       }
     }
+
+    if (n > 1) {
+      ret.add(n);
+    }
+
     return ret;
   }
 }
