@@ -3,24 +3,13 @@ package control;
 import java.util.Vector;
 
 public class Single {
-  /**
-   * This method is used to calculate the sum of the first n natural numbers.
-   * n exclusive
-   *
-   * @param n The number of natural numbers to sum.
-   * @return The sum of the first n natural numbers.
-   */
-  public static int sumRange(int n) {
-    int[] arr = new int[n];
+public static int sumRange(int n) {
     int sum = 0;
     for (int i = 0; i < n; i++) {
-      arr[i] = i;
-    }
-    for (int i : arr) {
-      sum += i;
+        sum += i;
     }
     return sum;
-  }
+}
 
   /**
    * This method calculates the maximum value in an array of integers.

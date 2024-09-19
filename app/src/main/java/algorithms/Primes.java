@@ -21,36 +21,43 @@ public class Primes {
     return true;
   }
 
-  /**
+/**
    * Sums all prime numbers from 0 to n
    *
    * @param n The number of prime numbers to sum.
    * @return The sum of the first n prime numbers.
-   */
+   */ 
   public static int SumPrimes(int n) {
-    int sum = 0;
-    for (int i = 0; i < n; i++) {
-      if (IsPrime(i)) {
-        sum = sum + i;
+    if (n <= 2) return 0;
+    boolean[] isComposite = new boolean[n];
+    int sum = 2;
+    for (int i = 3; i < n; i += 2) {
+      if (!isComposite[i]) {
+        sum += i;
+        for (int j = i * i; j < n; j += i) {
+          isComposite[j] = true;
+        }
       }
     }
     return sum;
   }
 
-  /**
-   * Finds all primes factors of a number
-   *
-   * @param n The number to find the prime factors of.
-   * @return An vector of all prime factors of n.
-   */
-  public static Vector<Integer> PrimeFactors(int n) {
+public static Vector<Integer> PrimeFactors(int n) {
     Vector<Integer> ret = new Vector<Integer>();
-
-    for (int i = 2; i < n; i++) {
-      if (n % i == 0 && IsPrime(i)) {
-        ret.add(i);
-      }
+    if (n <= 1) return ret;
+    while (n % 2 == 0) {
+        ret.add(2);
+        n /= 2;
+    }
+    for (int i = 3; i <= Math.sqrt(n); i += 2) {
+        while (n % i == 0) {
+            ret.add(i);
+            n /= i;
+        }
+    }
+    if (n > 2) {
+        ret.add(n);
     }
     return ret;
-  }
+}
 }
