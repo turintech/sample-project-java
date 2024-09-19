@@ -1,23 +1,15 @@
 package control;
+import java.util.Map;
+import java.util.HashMap;
 
 public class Double {
-  /**
-   * Sums all values squared from 0 to n
-   *
-   * @param n The number of natural numbers to sum.
-   * @return The sum of the first n natural numbers squared.
-   */
-  public static int sumSquare(int n) {
+public static int sumSquare(int n) {
     int sum = 0;
     for (int i = 0; i < n; i++) {
-      for (int j = 0; j < n; j++) {
-        if (i == j) {
-          sum = sum + i * j;
-        }
-      }
+        sum += i * i;
     }
     return sum;
-  }
+}
 
   /**
    * Sums all triangular numbers from T(1) to T(n)
@@ -35,49 +27,41 @@ public class Double {
     return sum;
   }
 
-  /**
+/**
    * Counts the number of pairs in an array
    *
    * A pair is any value that is repeated exactly twice in the array.
    *
    * @param arr The array of integers.
    * @return The number of pairs in the array.
-   */
+   */ 
   public static int countPairs(int[] arr) {
+    Map<Integer, Integer> frequencyMap = new HashMap<>();
     int count = 0;
-    for (int i = 0; i < arr.length; i++) {
-      int nDuplicates = 0;
-      for (int j = 0; j < arr.length; j++) {
-        if (arr[i] == arr[j]) {
-          nDuplicates++;
-        }
-      }
-      if (nDuplicates == 2) {
+
+    for (int num : arr) {
+      frequencyMap.put(num, frequencyMap.getOrDefault(num, 0) + 1);
+    }
+
+    for (int frequency : frequencyMap.values()) {
+      if (frequency == 2) {
         count++;
       }
     }
-    return count / 2;
-  }
 
-  /**
-   * Counts the number of instances where the values at the same index are equal
-   *
-   * @param arr0 The first array of integers.
-   * @param arr1 The second array of integers.
-   * @return The number of instances where the values at the same index are
-   *         equal.
-   */
-  public static int countDuplicates(int[] arr0, int[] arr1) {
-    int count = 0;
-    for (int i = 0; i < arr0.length; i++) {
-      for (int j = 0; j < arr1.length; j++) {
-        if (i == j && arr0[i] == arr1[j]) {
-          count++;
-        }
-      }
-    }
     return count;
   }
+
+public static int countDuplicates(int[] arr0, int[] arr1) {
+    int count = 0;
+    int length = Math.min(arr0.length, arr1.length);
+    for (int i = 0; i < length; i++) {
+        if (arr0[i] == arr1[i]) {
+            count++;
+        }
+    }
+    return count;
+}
 
   /**
    * Sums all values in a 2D array

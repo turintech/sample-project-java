@@ -1,4 +1,6 @@
 package datastructures;
+import java.util.List;
+import java.util.ArrayList;
 
 import java.util.Vector;
 
@@ -53,14 +55,14 @@ public class DsVector {
     return ret;
   }
 
-  /**
+/**
    * Reverses the vector
    *
    * @param v the vector to be reversed
    * @return the reversed vector
-   */
+   */ 
   public static Vector<Integer> reverseVector(Vector<Integer> v) {
-    Vector<Integer> ret = new Vector<Integer>();
+    Vector<Integer> ret = new Vector<Integer>(v.size());
 
     for (int i = v.size() - 1; i >= 0; i--) {
       ret.add(v.get(i));
@@ -87,23 +89,18 @@ public class DsVector {
     return ret;
   }
 
-  /**
+/**
    * Merges two vectors
    *
    * @param v1 the first vector to be merged
    * @param v2 the second vector to be merged
    * @return the merged vector
-   */
-  public static Vector<Integer> mergeVectors(Vector<Integer> v1,
-      Vector<Integer> v2) {
-    Vector<Integer> ret = new Vector<Integer>();
-
-    for (int i = 0; i < v1.size(); i++) {
-      ret.add(v1.get(i));
-    }
-    for (int i = 0; i < v2.size(); i++) {
-      ret.add(v2.get(i));
-    }
+   */ 
+  public static List<Integer> mergeVectors(List<Integer> v1,
+      List<Integer> v2) {
+    List<Integer> ret = new ArrayList<>(v1.size() + v2.size());
+    ret.addAll(v1);
+    ret.addAll(v2);
     return ret;
   }
 }
