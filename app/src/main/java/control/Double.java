@@ -59,21 +59,20 @@ public class Double {
     return count / 2;
   }
 
-  /**
+/**
    * Counts the number of instances where the values at the same index are equal
    *
    * @param arr0 The first array of integers.
    * @param arr1 The second array of integers.
    * @return The number of instances where the values at the same index are
    *         equal.
-   */
+   */ 
   public static int countDuplicates(int[] arr0, int[] arr1) {
     int count = 0;
-    for (int i = 0; i < arr0.length; i++) {
-      for (int j = 0; j < arr1.length; j++) {
-        if (i == j && arr0[i] == arr1[j]) {
-          count++;
-        }
+    int minLength = Math.min(arr0.length, arr1.length);
+    for (int i = 0; i < minLength; i++) {
+      if (arr0[i] == arr1[i]) {
+        count++;
       }
     }
     return count;
