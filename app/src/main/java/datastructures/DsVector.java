@@ -2,6 +2,9 @@ package datastructures;
 
 import java.util.Vector;
 
+import java.util.Collections;
+import java.util.List;
+
 public class DsVector {
   /**
    * Adds 1 to each element of the vector
@@ -40,16 +43,7 @@ public class DsVector {
    */
   public static Vector<Integer> sortVector(Vector<Integer> v) {
     Vector<Integer> ret = new Vector<Integer>(v);
-
-    for (int i = 0; i < ret.size(); i++) {
-      for (int j = 0; j < ret.size() - 1; j++) {
-        if (ret.get(j) > ret.get(j + 1)) {
-          int temp = ret.get(j);
-          ret.set(j, ret.get(j + 1));
-          ret.set(j + 1, temp);
-        }
-      }
-    }
+    Collections.sort(ret);
     return ret;
   }
 
@@ -60,12 +54,8 @@ public class DsVector {
    * @return the reversed vector
    */
   public static Vector<Integer> reverseVector(Vector<Integer> v) {
-    Vector<Integer> ret = new Vector<Integer>();
-
-    for (int i = v.size() - 1; i >= 0; i--) {
-      ret.add(v.get(i));
-    }
-    return ret;
+    Collections.reverse(v);
+    return v;
   }
 
   /**
@@ -98,12 +88,8 @@ public class DsVector {
       Vector<Integer> v2) {
     Vector<Integer> ret = new Vector<Integer>();
 
-    for (int i = 0; i < v1.size(); i++) {
-      ret.add(v1.get(i));
-    }
-    for (int i = 0; i < v2.size(); i++) {
-      ret.add(v2.get(i));
-    }
+    ret.addAll(v1);
+    ret.addAll(v2);
     return ret;
   }
 }
