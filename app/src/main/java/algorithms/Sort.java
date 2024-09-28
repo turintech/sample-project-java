@@ -1,4 +1,5 @@
 package algorithms;
+import java.util.PriorityQueue;
 
 import java.util.Collections;
 import java.util.Vector;
@@ -21,18 +22,19 @@ public class Sort {
    */
   public static void DutchFlagPartition(Vector<Integer> v, int pivot_value) {
     int next_value = 0;
+    int equal_value = 0;
 
     for (int i = 0; i < v.size(); i++) {
       if (v.get(i) < pivot_value) {
         Collections.swap(v, i, next_value);
+        if (next_value != equal_value) {
+          Collections.swap(v, i, equal_value);
+        }
         next_value++;
-      }
-    }
-
-    for (int i = next_value; i < v.size(); i++) {
-      if (v.get(i) == pivot_value) {
-        Collections.swap(v, i, next_value);
-        next_value++;
+        equal_value++;
+      } else if (v.get(i) == pivot_value) {
+        Collections.swap(v, i, equal_value);
+        equal_value++;
       }
     }
   }
@@ -45,16 +47,19 @@ public class Sort {
    * @return A vector of the largest n elements in v
    */
   public static Vector<Integer> MaxN(Vector<Integer> v, int n) {
-    Vector<Integer> ret = new Vector<Integer>();
-    // Copy the vector so we don't modify the original
-    Vector<Integer> temp = new Vector<Integer>(v);
+    PriorityQueue<Integer> minHeap = new PriorityQueue<>(n);
 
-    Collections.sort(temp);
-
-    for (int i = temp.size() - 1; i > temp.size() - n - 1; i--) {
-      ret.add(temp.get(i));
+    for (int num : v) {
+      if (minHeap.size() < n) {
+        minHeap.add(num);
+      } else if (num > minHeap.peek()) {
+        minHeap.poll();
+        minHeap.add(num);
+      }
     }
 
+    Vector<Integer> ret = new Vector<>(minHeap);
+    Collections.sort(ret, Collections.reverseOrder());
     return ret;
   }
 }

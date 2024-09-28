@@ -3,6 +3,9 @@ package generator;
 import java.util.Random;
 import java.util.Vector;
 
+import java.util.Random;
+import java.util.Vector;
+
 public class GenVector {
   /**
    * Generates a random vector of integers, length n
@@ -12,7 +15,7 @@ public class GenVector {
    * @return A vector of length n
    */
   public static Vector<Integer> generateVector(int n, int m) {
-    Vector<Integer> ret = new Vector<Integer>();
+    Vector<Integer> ret = new Vector<Integer>(n);
     Random rand = new Random();
 
     for (int i = 0; i < n; i++) {
