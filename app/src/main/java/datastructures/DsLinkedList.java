@@ -1,6 +1,7 @@
 package datastructures;
 
 import java.util.LinkedList;
+import java.util.Random;
 
 public class DsLinkedList {
   /**
@@ -10,12 +11,13 @@ public class DsLinkedList {
    * @return the shuffled linked list
    */
   public static LinkedList<Integer> shuffle(LinkedList<Integer> l) {
-    LinkedList<Integer> tmp = new LinkedList<Integer>(l);
-    LinkedList<Integer> ret = new LinkedList<Integer>();
-    while (tmp.size() > 0) {
-      int index = (int) (Math.random() * tmp.size());
-      ret.add(tmp.get(index));
-      tmp.remove(index);
+    LinkedList<Integer> ret = new LinkedList<Integer>(l);
+    Random rand = new Random();
+    for (int i = ret.size() - 1; i > 0; i--) {
+      int j = rand.nextInt(i + 1);
+      int temp = ret.get(i);
+      ret.set(i, ret.get(j));
+      ret.set(j, temp);
     }
     return ret;
   }
