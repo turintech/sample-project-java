@@ -13,28 +13,18 @@ public class App {
         System.out.println("SingleForLoop");
         System.out.println("-------------");
         System.out.println(String.format("SumRange(10): %s", Single.sumRange(10)));
-        System.out.println(
-                String.format("MaxArray([1, 2, 3, 4, 5]): %s",
-                        Single.maxArray(new int[] { 1, 2, 3, 4, 5 })));
-        System.out.println(
-                String.format("SumModulus(100, 3): %s", Single.sumModulus(100, 3)));
+        System.out.println(String.format("MaxArray([1, 2, 3, 4, 5]): %s", Single.maxArray(new int[] { 1, 2, 3, 4, 5 })));
+        System.out.println(String.format("SumModulus(100, 3): %s", Single.sumModulus(100, 3)));
         System.out.println();
     }
 
     public static void double_() {
         System.out.println("DoubleForLoop");
         System.out.println("-------------");
-        System.out.println(
-                String.format("SumSquare(10): %s", Double.sumSquare(10)));
-        System.out.println(
-                String.format("SumTriangle(10): %s", Double.sumTriangle(10)));
-        System.out.println(
-                String.format("CountPairs([1, 2, 3, 4, 5]): %s",
-                        Double.countPairs(new int[] { 1, 2, 3, 4, 5, 2 })));
-        System.out.println(
-                String.format("CountDuplicates([1, 2, 3, 4, 5], [1, 3, 2, 4, 5]): %s",
-                        Double.countDuplicates(new int[] { 1, 2, 3, 4, 5 },
-                                new int[] { 1, 3, 2, 4, 5 })));
+        System.out.println(String.format("SumSquare(10): %s", Double.sumSquare(10)));
+        System.out.println(String.format("SumTriangle(10): %s", Double.sumTriangle(10)));
+        System.out.println(String.format("CountPairs([1, 2, 3, 4, 5]): %s", Double.countPairs(new int[] { 1, 2, 3, 4, 5, 2 })));
+        System.out.println(String.format("CountDuplicates([1, 2, 3, 4, 5], [1, 3, 2, 4, 5]): %s", Double.countDuplicates(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 3, 2, 4, 5 })));
         System.out.println();
     }
 
@@ -44,23 +34,12 @@ public class App {
 
         System.out.println("Vector");
         System.out.println("------");
-        System.out.println(
-                String.format("ModifyVector(%s): %s", inputVec.toString(),
-                        DsVector.modifyVector(inputVec).toString()));
-        System.out.println(String.format("SearchVector(%s, 5): %s",
-                inputVec.toString(),
-                DsVector.searchVector(inputVec, 5)));
-        System.out.println(String.format("SortVector(%s): %s", inputVec.toString(),
-                DsVector.sortVector(inputVec).toString()));
-        System.out.println(
-                String.format("ReverseVector(%s): %s", inputVec.toString(),
-                        DsVector.reverseVector(inputVec).toString()));
-        System.out.println(
-                String.format("RotateVector(%s, 3): %s", inputVec.toString(),
-                        DsVector.rotateVector(inputVec, 3).toString()));
-        System.out.println(String.format(
-                "MergeVectors(%s, %s): %s", inputVec.toString(), inputVec2.toString(),
-                DsVector.mergeVectors(inputVec, inputVec2).toString()));
+        System.out.println(String.format("ModifyVector(%s): %s", inputVec.toString(), DsVector.modifyVector(inputVec).toString()));
+        System.out.println(String.format("SearchVector(%s, 5): %s", inputVec.toString(), DsVector.searchVector(inputVec, 5)));
+        System.out.println(String.format("SortVector(%s): %s", inputVec.toString(), DsVector.sortVector(inputVec).toString()));
+        System.out.println(String.format("ReverseVector(%s): %s", inputVec.toString(), DsVector.reverseVector(inputVec).toString()));
+        System.out.println(String.format("RotateVector(%s, 3): %s", inputVec.toString(), DsVector.rotateVector(inputVec, 3).toString()));
+        System.out.println(String.format("MergeVectors(%s, %s): %s", inputVec.toString(), inputVec2.toString(), DsVector.mergeVectors(inputVec, inputVec2).toString()));
 
         System.out.println();
     }
@@ -69,10 +48,8 @@ public class App {
         System.out.println("Primes");
         System.out.println("------");
         System.out.println(String.format("IsPrime(10): %s", Primes.IsPrime(10)));
-        System.out.println(
-                String.format("SumPrimes(10): %s", Primes.SumPrimes(10)));
-        System.out.println(String.format("PrimeFactors(10): %s",
-                Primes.PrimeFactors(10).toString()));
+        System.out.println(String.format("SumPrimes(10): %s", Primes.SumPrimes(10)));
+        System.out.println(String.format("PrimeFactors(10): %s", Primes.PrimeFactors(10).toString()));
         System.out.println();
     }
 
@@ -82,15 +59,11 @@ public class App {
         System.out.println("------");
         Vector<Integer> inputVec0 = new Vector<Integer>(initialVec);
         Sort.SortVector(inputVec0);
-        System.out.println(String.format(
-                "SortVector(%s): %s", initialVec.toString(), inputVec0.toString()));
+        System.out.println(String.format("SortVector(%s): %s", initialVec.toString(), inputVec0.toString()));
         Vector<Integer> inputVec1 = new Vector<Integer>(initialVec);
         Sort.DutchFlagPartition(inputVec1, 5);
-        System.out.println(String.format("DutchFlagPartition(%s, 5): %s",
-                inputVec1.toString(),
-                inputVec1.toString()));
-        System.out.println(String.format("MaxN(%s, 5): %s", initialVec.toString(),
-                Sort.MaxN(initialVec, 5).toString()));
+        System.out.println(String.format("DutchFlagPartition(%s, 5): %s", inputVec1.toString(), inputVec1.toString()));
+        System.out.println(String.format("MaxN(%s, 5): %s", initialVec.toString(), Sort.MaxN(initialVec, 5).toString()));
         System.out.println();
     }
 
