@@ -1,4 +1,5 @@
 package algorithms;
+import java.util.PriorityQueue;
 
 import java.util.Collections;
 import java.util.Vector;
@@ -45,16 +46,17 @@ public class Sort {
    * @return A vector of the largest n elements in v
    */
   public static Vector<Integer> MaxN(Vector<Integer> v, int n) {
-    Vector<Integer> ret = new Vector<Integer>();
-    // Copy the vector so we don't modify the original
-    Vector<Integer> temp = new Vector<Integer>(v);
-
-    Collections.sort(temp);
-
-    for (int i = temp.size() - 1; i > temp.size() - n - 1; i--) {
-      ret.add(temp.get(i));
+    // Use a priority queue (min-heap) to store the largest n elements
+    // This provides O(n log n) time complexity for sorting and O(n) time complexity for retrieving the largest n elements
+    java.util.PriorityQueue<Integer> maxHeap = new java.util.PriorityQueue<>(Collections.reverseOrder());
+    for (int i = 0; i < v.size(); i++) {
+      if (maxHeap.size() < n) {
+        maxHeap.offer(v.get(i));
+      } else if (v.get(i) > maxHeap.peek()) {
+        maxHeap.poll();
+        maxHeap.offer(v.get(i));
+      }
     }
-
-    return ret;
+    return new Vector<>(maxHeap);
   }
 }

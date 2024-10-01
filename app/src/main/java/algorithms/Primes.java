@@ -13,8 +13,14 @@ public class Primes {
     if (n < 2) {
       return false;
     }
-    for (int i = 2; i < n; i++) {
-      if (n % i == 0 && i != n) {
+    if (n <= 3) {
+      return true;
+    }
+    if (n % 2 == 0 || n % 3 == 0) {
+      return false;
+    }
+    for (int i = 5; i * i <= n; i += 6) {
+      if (n % i == 0 || n % (i + 2) == 0) {
         return false;
       }
     }
@@ -29,10 +35,14 @@ public class Primes {
    */
   public static int SumPrimes(int n) {
     int sum = 0;
-    for (int i = 0; i < n; i++) {
+    int count = 0;
+    int i = 2;
+    while (count < n) {
       if (IsPrime(i)) {
         sum = sum + i;
+        count++;
       }
+      i++;
     }
     return sum;
   }
@@ -46,10 +56,14 @@ public class Primes {
   public static Vector<Integer> PrimeFactors(int n) {
     Vector<Integer> ret = new Vector<Integer>();
 
-    for (int i = 2; i < n; i++) {
-      if (n % i == 0 && IsPrime(i)) {
+    for (int i = 2; i * i <= n; i++) {
+      while (n % i == 0 && IsPrime(i)) {
         ret.add(i);
+        n /= i;
       }
+    }
+    if (n > 1) {
+      ret.add(n);
     }
     return ret;
   }
