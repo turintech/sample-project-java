@@ -12,7 +12,7 @@ public class GenVector {
    * @return A vector of length n
    */
   public static Vector<Integer> generateVector(int n, int m) {
-    Vector<Integer> ret = new Vector<Integer>();
+    Vector<Integer> ret = new Vector<Integer>(n);
     Random rand = new Random();
 
     for (int i = 0; i < n; i++) {
