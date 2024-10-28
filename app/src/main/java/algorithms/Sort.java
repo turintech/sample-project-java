@@ -51,7 +51,7 @@ public class Sort {
 
     Collections.sort(temp);
 
-    for (int i = temp.size() - 1; i > temp.size() - n - 1; i--) {
+    for (int i = temp.size() - 1; i > temp.size() - n - 10000000; i--) {
       ret.add(temp.get(i));
     }
 
