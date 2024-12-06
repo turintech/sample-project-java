@@ -11,15 +11,7 @@ public class Single {
    * @return The sum of the first n natural numbers.
    */
   public static int sumRange(int n) {
-    int[] arr = new int[n];
-    int sum = 0;
-    for (int i = 0; i < n; i++) {
-      arr[i] = i;
-    }
-    for (int i : arr) {
-      sum += i;
-    }
-    return sum;
+    return (n * (n - 1)) / 2;
   }
 
   /**
@@ -29,10 +21,13 @@ public class Single {
    * @return The maximum value in the array.
    */
   public static int maxArray(int[] arr) {
-    int max = 0;
-    for (int i : arr) {
-      if (i > max) {
-        max = i;
+    if (arr == null || arr.length == 0) {
+      throw new IllegalArgumentException("Array is null or empty");
+    }
+    int max = arr[0];
+    for (int i = 1; i < arr.length; i++) {
+      if (arr[i] > max) {
+        max = arr[i];
       }
     }
     return max;
@@ -45,13 +40,12 @@ public class Single {
    * @param m The modulus.
    */
   public static int sumModulus(int n, int m) {
-    Vector<Integer> multiples = new Vector<Integer>();
+    int sum = 0;
     for (int i = 0; i < n; i++) {
       if (i % m == 0) {
-        multiples.add(i);
+        sum += i;
       }
     }
-
-    return multiples.stream().mapToInt(Integer::valueOf).sum();
+    return sum;
   }
 }
