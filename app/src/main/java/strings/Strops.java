@@ -8,11 +8,7 @@ public class Strops {
    * @return The reversed string.
    */
   public String reverse(String str) {
-    String reversed = "";
-    for (int i = str.length() - 1; i >= 0; i--) {
-      reversed += str.charAt(i);
-    }
-    return reversed;
+    return new StringBuilder(str).reverse().toString();
   }
 
   /**
@@ -22,14 +18,19 @@ public class Strops {
    * @return True if the string is a palindrome, false otherwise.
    */
   public boolean isPalindrome(String str) {
-    if (str.length() == 0) {
+    if (str.isEmpty()) {
       return false;
     }
 
-    for (int i = 0; i < str.length(); i++) {
-      if (str.charAt(i) != str.charAt(str.length() - 1 - i)) {
+    int left = 0;
+    int right = str.length() - 1;
+
+    while (left < right) {
+      if (str.charAt(left) != str.charAt(right)) {
         return false;
       }
+      left++;
+      right--;
     }
 
     return true;
