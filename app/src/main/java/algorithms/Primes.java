@@ -1,5 +1,5 @@
 package algorithms;
-import java.util.Vector;
+import java.util.ArrayList;
 
 public class Primes {
   /**
@@ -12,8 +12,9 @@ public class Primes {
     if (n < 2) {
       return false;
     }
-    for (int i = 2; i < n; i++) {
-      if (n % i == 0 && i != n) {
+    // Optimize prime checking with square root limit
+    for (int i = 2; i <= Math.sqrt(n); i++) {
+      if (n % i == 0) {
         return false;
       }
     }
@@ -28,9 +29,9 @@ public class Primes {
    */
   public static int SumPrimes(int n) {
     int sum = 0;
-    for (int i = 0; i < n; i++) {
+    for (int i = 2; i < n; i++) {
       if (IsPrime(i)) {
-        sum = sum + i;
+        sum += i;
       }
     }
     return sum;
@@ -42,14 +43,23 @@ public class Primes {
    * @param n The number to find the prime factors of.
    * @return An vector of all prime factors of n.
    */
-  public static Vector<Integer> PrimeFactors(int n) {
-    Vector<Integer> ret = new Vector<Integer>();
+  public static ArrayList<Integer> PrimeFactors(int n) {
+    ArrayList<Integer> ret = new ArrayList<>();
 
-    for (int i = 2; i < n; i++) {
-      if (n % i == 0 && IsPrime(i)) {
-        ret.add(i);
+    for (int i = 2; i <= Math.sqrt(n); i++) {
+      while (n % i == 0) {
+        if (IsPrime(i)) {
+          ret.add(i);
+        }
+        n /= i;
       }
     }
+    
+    // If n > 1, it means n itself is a prime factor
+    if (n > 1) {
+      ret.add(n);
+    }
+    
     return ret;
   }
 }
