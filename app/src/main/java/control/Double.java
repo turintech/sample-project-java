@@ -10,11 +10,7 @@ public class Double {
   public static int sumSquare(int n) {
     int sum = 0;
     for (int i = 0; i < n; i++) {
-      for (int j = 0; j < n; j++) {
-        if (i == j) {
-          sum = sum + i * j;
-        }
-      }
+      sum += i * i;
     }
     return sum;
   }
@@ -27,10 +23,8 @@ public class Double {
    */
   public static int sumTriangle(int n) {
     int sum = 0;
-    for (int i = 0; i < n + 1; i++) {
-      for (int j = 0; j < i; j++) {
-        sum = sum + j;
-      }
+    for (int i = 1; i <= n; i++) {
+      sum += i * (i - 1) / 2;
     }
     return sum;
   }
@@ -45,19 +39,20 @@ public class Double {
    */
   public static int countPairs(int[] arr) {
     int count = 0;
-    for (int i = 0; i < arr.length; i++) {
-      int nDuplicates = 0;
-      for (int j = 0; j < arr.length; j++) {
-        if (arr[i] == arr[j]) {
-          nDuplicates++;
-        }
-      }
-      if (nDuplicates == 2) {
+    int[] counts = new int[1001]; // Assuming values are within 0-1000
+
+    for (int num : arr) {
+      counts[num]++;
+    }
+
+    for (int c : counts) {
+      if (c == 2) {
         count++;
       }
     }
     return count / 2;
   }
+
 
   /**
    * Counts the number of instances where the values at the same index are equal
@@ -69,11 +64,10 @@ public class Double {
    */
   public static int countDuplicates(int[] arr0, int[] arr1) {
     int count = 0;
-    for (int i = 0; i < arr0.length; i++) {
-      for (int j = 0; j < arr1.length; j++) {
-        if (i == j && arr0[i] == arr1[j]) {
-          count++;
-        }
+    int minLength = Math.min(arr0.length, arr1.length);
+    for (int i = 0; i < minLength; i++) {
+      if (arr0[i] == arr1[i]) {
+        count++;
       }
     }
     return count;
