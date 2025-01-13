@@ -3,6 +3,9 @@ package algorithms;
 import java.util.Collections;
 import java.util.Vector;
 
+
+import java.util.PriorityQueue;
+
 public class Sort {
   /**
    * Sorts a vector of integers in ascending order
@@ -45,16 +48,23 @@ public class Sort {
    * @return A vector of the largest n elements in v
    */
   public static Vector<Integer> MaxN(Vector<Integer> v, int n) {
-    Vector<Integer> ret = new Vector<Integer>();
-    // Copy the vector so we don't modify the original
-    Vector<Integer> temp = new Vector<Integer>(v);
-
-    Collections.sort(temp);
-
-    for (int i = temp.size() - 1; i > temp.size() - n - 1; i--) {
-      ret.add(temp.get(i));
+    if (n <= 0 || v == null || v.size() < n) {
+      throw new IllegalArgumentException("Invalid input parameters");
     }
 
+    PriorityQueue<Integer> minHeap = new PriorityQueue<>(n);
+    
+    for (int num : v) {
+      if (minHeap.size() < n) {
+        minHeap.offer(num);
+      } else if (num > minHeap.peek()) {
+        minHeap.poll();
+        minHeap.offer(num);
+      }
+    }
+
+    Vector<Integer> ret = new Vector<>(minHeap);
+    Collections.sort(ret, Collections.reverseOrder());
     return ret;
   }
 }
