@@ -76,23 +76,29 @@ public class App {
         System.out.println();
     }
 
-    public static void sort() {
-        Vector<Integer> initialVec = GenVector.generateVector(20, 10);
-        System.out.println("Sort");
-        System.out.println("------");
-        Vector<Integer> inputVec0 = new Vector<Integer>(initialVec);
-        Sort.SortVector(inputVec0);
-        System.out.println(String.format(
-                "SortVector(%s): %s", initialVec.toString(), inputVec0.toString()));
-        Vector<Integer> inputVec1 = new Vector<Integer>(initialVec);
-        Sort.DutchFlagPartition(inputVec1, 5);
-        System.out.println(String.format("DutchFlagPartition(%s, 5): %s",
-                inputVec1.toString(),
-                inputVec1.toString()));
-        System.out.println(String.format("MaxN(%s, 5): %s", initialVec.toString(),
-                Sort.MaxN(initialVec, 5).toString()));
-        System.out.println();
-    }
+public static void sort() {
+    Vector<Integer> initialVec = GenVector.generateVector(20, 10);
+    System.out.println("Sort");
+    System.out.println("------");
+    
+    // Sort the vector and display the result
+    Vector<Integer> inputVec0 = new Vector<Integer>(initialVec);
+    Sort.SortVector(inputVec0);
+    System.out.println(String.format(
+            "SortVector(%s): %s", initialVec.toString(), inputVec0.toString()));
+    
+    // Apply Dutch Flag Partition and display the result
+    Vector<Integer> inputVec1 = new Vector<Integer>(initialVec);
+    Sort.DutchFlagPartition(inputVec1, 5);
+    System.out.println(String.format("DutchFlagPartition(%s, 5): %s",
+            initialVec.toString(), // Use initialVec for consistency
+            inputVec1.toString()));
+    
+    // Display the maximum N values
+    System.out.println(String.format("MaxN(%s, 5): %s", initialVec.toString(),
+            Sort.MaxN(initialVec, 5).toString()));
+    System.out.println();
+}
 
     public static void main(String[] args) {
         single();
