@@ -27,10 +27,11 @@ public class Primes {
    * @return The sum of the first n prime numbers.
    */
   public static int SumPrimes(int n) {
-    int sum = 0;
-    for (int i = 0; i < n; i++) {
+    if (n < 2) return 0;
+    int sum = 2; // Start with 2, the only even prime
+    for (int i = 3; i < n; i += 2) { // Skip even numbers after 2
       if (IsPrime(i)) {
-        sum = sum + i;
+        sum += i;
       }
     }
     return sum;
