@@ -2,6 +2,7 @@ package algorithms;
 
 import java.util.Collections;
 import java.util.Vector;
+import java.util.PriorityQueue;
 
 public class Sort {
   /**
@@ -22,6 +23,7 @@ public class Sort {
   public static void DutchFlagPartition(Vector<Integer> v, int pivot_value) {
     int next_value = 0;
 
+    // Iterate through the vector to partition values less than the pivot
     for (int i = 0; i < v.size(); i++) {
       if (v.get(i) < pivot_value) {
         Collections.swap(v, i, next_value);
@@ -29,6 +31,7 @@ public class Sort {
       }
     }
 
+    // Iterate through the vector to partition values equal to the pivot
     for (int i = next_value; i < v.size(); i++) {
       if (v.get(i) == pivot_value) {
         Collections.swap(v, i, next_value);
@@ -45,16 +48,27 @@ public class Sort {
    * @return A vector of the largest n elements in v
    */
   public static Vector<Integer> MaxN(Vector<Integer> v, int n) {
-    Vector<Integer> ret = new Vector<Integer>();
-    // Copy the vector so we don't modify the original
-    Vector<Integer> temp = new Vector<Integer>(v);
-
-    Collections.sort(temp);
-
-    for (int i = temp.size() - 1; i > temp.size() - n - 1; i--) {
-      ret.add(temp.get(i));
+    // Validate input parameters
+    if (n <= 0 || v == null || v.size() < n) {
+      throw new IllegalArgumentException("Invalid input parameters");
     }
 
+    // Create a min-heap to keep track of the largest n elements
+    PriorityQueue<Integer> minHeap = new PriorityQueue<>(n);
+    
+    // Iterate through the vector to populate the min-heap
+    for (int num : v) {
+      if (minHeap.size() < n) {
+        minHeap.offer(num);
+      } else if (num > minHeap.peek()) {
+        minHeap.poll();
+        minHeap.offer(num);
+      }
+    }
+
+    // Convert the min-heap to a vector and sort it in descending order
+    Vector<Integer> ret = new Vector<>(minHeap);
+    Collections.sort(ret, Collections.reverseOrder());
     return ret;
   }
 }
