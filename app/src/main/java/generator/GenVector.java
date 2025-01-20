@@ -21,7 +21,7 @@ public class GenVector {
       ret.add(rand.nextInt(m));
     }
 
-    // Convert back to vector if the return type must be Vector.
+    // Convert back to vector if the return type must be Vector.  If not, returning the ArrayList directly would be more efficient.
     return new Vector<>(ret); 
   }
 }
