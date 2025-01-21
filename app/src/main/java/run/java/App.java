@@ -1,4 +1,5 @@
 package run.java;
+import java.util.ArrayList;
 
 import algorithms.Primes;
 import algorithms.Sort;
@@ -39,28 +40,29 @@ public class App {
     }
 
     public static void vector() {
-        Vector<Integer> inputVec = GenVector.generateVector(10, 10);
-        Vector<Integer> inputVec2 = GenVector.generateVector(10, 10);
+        // Using ArrayList instead of Vector for better performance since synchronization is not needed
+        ArrayList<Integer> inputVec = new ArrayList<>(GenVector.generateVector(10, 10));
+        ArrayList<Integer> inputVec2 = new ArrayList<>(GenVector.generateVector(10, 10));
 
         System.out.println("Vector");
         System.out.println("------");
         System.out.println(
                 String.format("ModifyVector(%s): %s", inputVec.toString(),
-                        DsVector.modifyVector(inputVec).toString()));
+                        DsVector.modifyVector(new Vector<>(inputVec)).toString()));
         System.out.println(String.format("SearchVector(%s, 5): %s",
                 inputVec.toString(),
-                DsVector.searchVector(inputVec, 5)));
+                DsVector.searchVector(new Vector<>(inputVec), 5)));
         System.out.println(String.format("SortVector(%s): %s", inputVec.toString(),
-                DsVector.sortVector(inputVec).toString()));
+                DsVector.sortVector(new Vector<>(inputVec)).toString()));
         System.out.println(
                 String.format("ReverseVector(%s): %s", inputVec.toString(),
-                        DsVector.reverseVector(inputVec).toString()));
+                        DsVector.reverseVector(new Vector<>(inputVec)).toString()));
         System.out.println(
                 String.format("RotateVector(%s, 3): %s", inputVec.toString(),
-                        DsVector.rotateVector(inputVec, 3).toString()));
+                        DsVector.rotateVector(new Vector<>(inputVec), 3).toString()));
         System.out.println(String.format(
                 "MergeVectors(%s, %s): %s", inputVec.toString(), inputVec2.toString(),
-                DsVector.mergeVectors(inputVec, inputVec2).toString()));
+                DsVector.mergeVectors(new Vector<>(inputVec), new Vector<>(inputVec2)).toString()));
 
         System.out.println();
     }
@@ -77,20 +79,20 @@ public class App {
     }
 
     public static void sort() {
-        Vector<Integer> initialVec = GenVector.generateVector(20, 10);
+        ArrayList<Integer> initialVec = new ArrayList<>(GenVector.generateVector(20, 10));
         System.out.println("Sort");
         System.out.println("------");
-        Vector<Integer> inputVec0 = new Vector<Integer>(initialVec);
+        Vector<Integer> inputVec0 = new Vector<>(initialVec);
         Sort.SortVector(inputVec0);
         System.out.println(String.format(
                 "SortVector(%s): %s", initialVec.toString(), inputVec0.toString()));
-        Vector<Integer> inputVec1 = new Vector<Integer>(initialVec);
+        Vector<Integer> inputVec1 = new Vector<>(initialVec);
         Sort.DutchFlagPartition(inputVec1, 5);
         System.out.println(String.format("DutchFlagPartition(%s, 5): %s",
                 inputVec1.toString(),
                 inputVec1.toString()));
         System.out.println(String.format("MaxN(%s, 5): %s", initialVec.toString(),
-                Sort.MaxN(initialVec, 5).toString()));
+                Sort.MaxN(new Vector<>(initialVec), 5).toString()));
         System.out.println();
     }
 

@@ -5,21 +5,12 @@ This is a sample project for showcasing how optimization can be performed in a J
 
 Build:
 
-```shell
-./gradlew build -x test
-```
 
 Run Main:
 
-```shell
-./gradlew run
-```
 
 Run Unit Tests:
 
-```shell
-./gradlew test
-```
 
 Run Benchmarking:
 
