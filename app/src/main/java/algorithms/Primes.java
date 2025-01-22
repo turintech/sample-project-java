@@ -1,4 +1,6 @@
 package algorithms;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Vector;
 
 public class Primes {
@@ -28,10 +30,14 @@ public class Primes {
    */
   public static int SumPrimes(int n) {
     int sum = 0;
-    for (int i = 0; i < n; i++) {
+    List<Integer> primes = new ArrayList<>();
+    for (int i = 2; i <= n; i++) {
       if (IsPrime(i)) {
-        sum = sum + i;
+        primes.add(i);
       }
+    }
+    for (int p : primes) {
+        sum += p;
     }
     return sum;
   }
@@ -42,8 +48,8 @@ public class Primes {
    * @param n The number to find the prime factors of.
    * @return An vector of all prime factors of n.
    */
-  public static Vector<Integer> PrimeFactors(int n) {
-    Vector<Integer> ret = new Vector<Integer>();
+  public static List<Integer> PrimeFactors(int n) {
+    List<Integer> ret = new ArrayList<>();
 
     for (int i = 2; i * i <= n; i++) { // Optimized loop condition
       while (n % i == 0 && IsPrime(i)) { // Optimized to handle repeated factors
