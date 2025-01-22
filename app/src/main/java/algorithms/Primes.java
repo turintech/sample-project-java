@@ -1,5 +1,5 @@
 package algorithms;
-import java.util.Vector;
+import java.util.ArrayList;
 
 public class Primes {
   /**
@@ -40,10 +40,10 @@ public class Primes {
    * Finds all primes factors of a number
    *
    * @param n The number to find the prime factors of.
-   * @return An vector of all prime factors of n.
+   * @return An array list of all prime factors of n.
    */
-  public static Vector<Integer> PrimeFactors(int n) {
-    Vector<Integer> ret = new Vector<Integer>();
+  public static ArrayList<Integer> PrimeFactors(int n) {
+    ArrayList<Integer> ret = new ArrayList<Integer>();
 
     for (int i = 2; i * i <= n; i++) { // Optimized loop condition
       while (n % i == 0 && IsPrime(i)) { // Optimized to handle repeated factors
