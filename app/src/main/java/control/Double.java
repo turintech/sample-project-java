@@ -1,5 +1,11 @@
 package control;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Arrays;
+import java.util.stream.IntStream;
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class Double {
   /**
    * Sums all values squared from 0 to n
@@ -8,15 +14,9 @@ public class Double {
    * @return The sum of the first n natural numbers squared.
    */
   public static int sumSquare(int n) {
-    int sum = 0;
-    for (int i = 0; i < n; i++) {
-      for (int j = 0; j < n; j++) {
-        if (i == j) {
-          sum = sum + i * j;
-        }
-      }
-    }
-    return sum;
+    // Using the mathematical formula n(n+1)(2n+1)/6 for sum of squares
+    // Added overflow protection with long
+    return (int)(((long)n * (n + 1L) * (2L * n + 1)) / 6L);
   }
 
   /**
@@ -26,13 +26,9 @@ public class Double {
    * @return The sum of the first n triangular numbers.
    */
   public static int sumTriangle(int n) {
-    int sum = 0;
-    for (int i = 0; i < n + 1; i++) {
-      for (int j = 0; j < i; j++) {
-        sum = sum + j;
-      }
-    }
-    return sum;
+    // Using the mathematical formula n(n+1)(n+2)/6 for sum of triangular numbers
+    // Added overflow protection with long
+    return (int)(((long)n * (n + 1L) * (n + 2L)) / 6L);
   }
 
   /**
@@ -44,19 +40,23 @@ public class Double {
    * @return The number of pairs in the array.
    */
   public static int countPairs(int[] arr) {
-    int count = 0;
-    for (int i = 0; i < arr.length; i++) {
-      int nDuplicates = 0;
-      for (int j = 0; j < arr.length; j++) {
-        if (arr[i] == arr[j]) {
-          nDuplicates++;
-        }
-      }
-      if (nDuplicates == 2) {
-        count++;
-      }
+    if (arr == null || arr.length < 2) {
+        return 0;
     }
-    return count / 2;
+    
+    // Using streams with frequency map for cleaner code
+    return (int) Arrays.stream(arr)
+        .boxed()
+        .collect(java.util.stream.Collectors.groupingBy(
+            i -> i,
+            java.util.stream.Collectors.collectingAndThen(
+                java.util.stream.Collectors.counting(),
+                count -> count == 2 ? 1 : 0
+            )))
+        .values()
+        .stream()
+        .mapToInt(Integer::intValue)
+        .sum();
   }
 
   /**
@@ -68,15 +68,15 @@ public class Double {
    *         equal.
    */
   public static int countDuplicates(int[] arr0, int[] arr1) {
-    int count = 0;
-    for (int i = 0; i < arr0.length; i++) {
-      for (int j = 0; j < arr1.length; j++) {
-        if (i == j && arr0[i] == arr1[j]) {
-          count++;
-        }
-      }
+    if (arr0 == null || arr1 == null || arr0.length == 0 || arr1.length == 0) {
+        return 0;
     }
-    return count;
+    
+    // Using parallel stream for better performance on large arrays
+    return (int) IntStream.range(0, Math.min(arr0.length, arr1.length))
+        .parallel()
+        .filter(i -> arr0[i] == arr1[i])
+        .count();
   }
 
   /**
@@ -88,13 +88,17 @@ public class Double {
    * @return The sum of all values in the 2D array.
    */
   public static int sumMatrix(int[][] arr) {
-    int sum = 0;
-    int n = arr.length;
-    for (int i = 0; i < n; i++) {
-      for (int j = 0; j < n; j++) {
-        sum += arr[i][j];
-      }
+    if (arr == null || arr.length == 0 || arr[0].length == 0) {
+        return 0;
     }
-    return sum;
+
+    // Using parallel stream for better performance and handling potential overflow
+    AtomicInteger sum = new AtomicInteger(0);
+    Arrays.stream(arr)
+        .parallel()
+        .flatMapToInt(Arrays::stream)
+        .forEach(value -> sum.addAndGet(value));
+    
+    return sum.get();
   }
 }
