@@ -1,5 +1,8 @@
 package control;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Double {
   /**
    * Sums all values squared from 0 to n
@@ -10,11 +13,7 @@ public class Double {
   public static int sumSquare(int n) {
     int sum = 0;
     for (int i = 0; i < n; i++) {
-      for (int j = 0; j < n; j++) {
-        if (i == j) {
-          sum = sum + i * j;
-        }
-      }
+      sum += i * i; // Directly calculate square and add
     }
     return sum;
   }
@@ -27,10 +26,8 @@ public class Double {
    */
   public static int sumTriangle(int n) {
     int sum = 0;
-    for (int i = 0; i < n + 1; i++) {
-      for (int j = 0; j < i; j++) {
-        sum = sum + j;
-      }
+    for (int i = 1; i <= n; i++) {
+      sum += i * (i - 1) / 2; // Directly calculate triangular number and add.  Use formula i*(i-1)/2 instead of summing i times. Remove one level of looping
     }
     return sum;
   }
@@ -44,20 +41,20 @@ public class Double {
    * @return The number of pairs in the array.
    */
   public static int countPairs(int[] arr) {
-    int count = 0;
-    for (int i = 0; i < arr.length; i++) {
-      int nDuplicates = 0;
-      for (int j = 0; j < arr.length; j++) {
-        if (arr[i] == arr[j]) {
-          nDuplicates++;
-        }
-      }
-      if (nDuplicates == 2) {
-        count++;
+    Map<Integer, Integer> counts = new HashMap<>();
+    for (int num : arr) {
+      counts.put(num, counts.getOrDefault(num, 0) + 1);
+    }
+
+    int pairs = 0;
+    for (int count : counts.values()) {
+      if (count == 2) {
+        pairs++;
       }
     }
-    return count / 2;
+    return pairs / 2; //Divide pairs by two since each pair was counted twice
   }
+
 
   /**
    * Counts the number of instances where the values at the same index are equal
@@ -69,11 +66,10 @@ public class Double {
    */
   public static int countDuplicates(int[] arr0, int[] arr1) {
     int count = 0;
-    for (int i = 0; i < arr0.length; i++) {
-      for (int j = 0; j < arr1.length; j++) {
-        if (i == j && arr0[i] == arr1[j]) {
-          count++;
-        }
+    int minLength = Math.min(arr0.length, arr1.length); // Get min length to avoid index out of bound
+    for (int i = 0; i < minLength; i++) {
+      if (arr0[i] == arr1[i]) {
+        count++;
       }
     }
     return count;
