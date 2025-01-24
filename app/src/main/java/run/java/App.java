@@ -6,7 +6,8 @@ import control.Double;
 import control.Single;
 import datastructures.DsVector;
 import generator.GenVector;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 public class App {
     public static void single() {
@@ -39,8 +40,8 @@ public class App {
     }
 
     public static void vector() {
-        Vector<Integer> inputVec = GenVector.generateVector(10, 10);
-        Vector<Integer> inputVec2 = GenVector.generateVector(10, 10);
+        List<Integer> inputVec = GenVector.generateVector(10, 10);
+        List<Integer> inputVec2 = GenVector.generateVector(10, 10);
 
         System.out.println("Vector");
         System.out.println("------");
@@ -77,14 +78,14 @@ public class App {
     }
 
     public static void sort() {
-        Vector<Integer> initialVec = GenVector.generateVector(20, 10);
+        List<Integer> initialVec = GenVector.generateVector(20, 10);
         System.out.println("Sort");
         System.out.println("------");
-        Vector<Integer> inputVec0 = new Vector<Integer>(initialVec);
+        List<Integer> inputVec0 = new ArrayList<>(initialVec);
         Sort.SortVector(inputVec0);
         System.out.println(String.format(
                 "SortVector(%s): %s", initialVec.toString(), inputVec0.toString()));
-        Vector<Integer> inputVec1 = new Vector<Integer>(initialVec);
+        List<Integer> inputVec1 = new ArrayList<>(initialVec);
         Sort.DutchFlagPartition(inputVec1, 5);
         System.out.println(String.format("DutchFlagPartition(%s, 5): %s",
                 inputVec1.toString(),
