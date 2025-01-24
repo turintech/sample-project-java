@@ -10,11 +10,7 @@ public class Double {
   public static int sumSquare(int n) {
     int sum = 0;
     for (int i = 0; i < n; i++) {
-      for (int j = 0; j < n; j++) {
-        if (i == j) {
-          sum = sum + i * j;
-        }
-      }
+      sum = sum + i * i;
     }
     return sum;
   }
@@ -28,9 +24,8 @@ public class Double {
   public static int sumTriangle(int n) {
     int sum = 0;
     for (int i = 0; i < n + 1; i++) {
-      for (int j = 0; j < i; j++) {
-        sum = sum + j;
-      }
+      // Use formula for sum of first (i-1) numbers: (i-1)*i/2
+      sum = sum + ((i - 1) * i) / 2;
     }
     return sum;
   }
@@ -44,19 +39,19 @@ public class Double {
    * @return The number of pairs in the array.
    */
   public static int countPairs(int[] arr) {
+    // Use array as frequency map (assuming reasonable integer range)
+    int[] frequency = new int[10001];  // Adjust size based on input constraints
+    for (int num : arr) {
+      frequency[num]++;
+    }
+    
     int count = 0;
-    for (int i = 0; i < arr.length; i++) {
-      int nDuplicates = 0;
-      for (int j = 0; j < arr.length; j++) {
-        if (arr[i] == arr[j]) {
-          nDuplicates++;
-        }
-      }
-      if (nDuplicates == 2) {
+    for (int freq : frequency) {
+      if (freq == 2) {
         count++;
       }
     }
-    return count / 2;
+    return count;
   }
 
   /**
@@ -70,10 +65,8 @@ public class Double {
   public static int countDuplicates(int[] arr0, int[] arr1) {
     int count = 0;
     for (int i = 0; i < arr0.length; i++) {
-      for (int j = 0; j < arr1.length; j++) {
-        if (i == j && arr0[i] == arr1[j]) {
-          count++;
-        }
+      if (arr0[i] == arr1[i]) {
+        count++;
       }
     }
     return count;

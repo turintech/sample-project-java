@@ -1,6 +1,9 @@
 package datastructures;
 
 import java.util.Vector;
+import java.util.Collections;
+import java.util.List;
+import java.util.ArrayList;
 
 public class DsVector {
   /**
@@ -39,17 +42,10 @@ public class DsVector {
    * @return the sorted vector
    */
   public static Vector<Integer> sortVector(Vector<Integer> v) {
-    Vector<Integer> ret = new Vector<Integer>(v);
+    List<Integer> list = new ArrayList<>(v); // Convert to List for efficient sorting
+    Collections.sort(list);
+    Vector<Integer> ret = new Vector<>(list); // Convert back to Vector
 
-    for (int i = 0; i < ret.size(); i++) {
-      for (int j = 0; j < ret.size() - 1; j++) {
-        if (ret.get(j) > ret.get(j + 1)) {
-          int temp = ret.get(j);
-          ret.set(j, ret.get(j + 1));
-          ret.set(j + 1, temp);
-        }
-      }
-    }
     return ret;
   }
 
