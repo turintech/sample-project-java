@@ -1,5 +1,9 @@
 package control;
 
+import java.util.HashMap;
+import java.util.Arrays;
+import java.util.stream.IntStream;
+
 public class Double {
   /**
    * Sums all values squared from 0 to n
@@ -8,15 +12,10 @@ public class Double {
    * @return The sum of the first n natural numbers squared.
    */
   public static int sumSquare(int n) {
-    int sum = 0;
-    for (int i = 0; i < n; i++) {
-      for (int j = 0; j < n; j++) {
-        if (i == j) {
-          sum = sum + i * j;
-        }
-      }
-    }
-    return sum;
+    // Optimization: Direct formula n*(n-1)/2 since i==j condition means we only need diagonal
+    return IntStream.range(0, n)
+            .map(i -> i * i)
+            .sum();
   }
 
   /**
@@ -26,13 +25,11 @@ public class Double {
    * @return The sum of the first n triangular numbers.
    */
   public static int sumTriangle(int n) {
-    int sum = 0;
-    for (int i = 0; i < n + 1; i++) {
-      for (int j = 0; j < i; j++) {
-        sum = sum + j;
-      }
-    }
-    return sum;
+    // Using the formula for triangular numbers: T(n) = n(n+1)/2
+    // Then summing them up efficiently
+    return IntStream.rangeClosed(1, n)
+            .map(i -> (i * (i + 1)) / 2)
+            .sum();
   }
 
   /**
@@ -44,19 +41,14 @@ public class Double {
    * @return The number of pairs in the array.
    */
   public static int countPairs(int[] arr) {
-    int count = 0;
-    for (int i = 0; i < arr.length; i++) {
-      int nDuplicates = 0;
-      for (int j = 0; j < arr.length; j++) {
-        if (arr[i] == arr[j]) {
-          nDuplicates++;
-        }
-      }
-      if (nDuplicates == 2) {
-        count++;
-      }
+    // Using HashMap for O(n) time complexity
+    HashMap<Integer, Integer> frequencyMap = new HashMap<>();
+    for (int num : arr) {
+      frequencyMap.merge(num, 1, Integer::sum);
     }
-    return count / 2;
+    return (int) frequencyMap.values().stream()
+            .filter(freq -> freq == 2)
+            .count();
   }
 
   /**
@@ -68,15 +60,10 @@ public class Double {
    *         equal.
    */
   public static int countDuplicates(int[] arr0, int[] arr1) {
-    int count = 0;
-    for (int i = 0; i < arr0.length; i++) {
-      for (int j = 0; j < arr1.length; j++) {
-        if (i == j && arr0[i] == arr1[j]) {
-          count++;
-        }
-      }
-    }
-    return count;
+    // Using the more efficient single loop approach with min length check
+    return (int) IntStream.range(0, Math.min(arr0.length, arr1.length))
+            .filter(i -> arr0[i] == arr1[i])
+            .count();
   }
 
   /**
@@ -88,13 +75,9 @@ public class Double {
    * @return The sum of all values in the 2D array.
    */
   public static int sumMatrix(int[][] arr) {
-    int sum = 0;
-    int n = arr.length;
-    for (int i = 0; i < n; i++) {
-      for (int j = 0; j < n; j++) {
-        sum += arr[i][j];
-      }
-    }
-    return sum;
+    // Using streams for a more concise solution
+    return Arrays.stream(arr)
+            .flatMapToInt(Arrays::stream)
+            .sum();
   }
 }
