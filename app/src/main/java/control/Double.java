@@ -1,5 +1,7 @@
 package control;
 
+import java.util.HashMap;
+
 public class Double {
   /**
    * Sums all values squared from 0 to n
@@ -8,15 +10,10 @@ public class Double {
    * @return The sum of the first n natural numbers squared.
    */
   public static int sumSquare(int n) {
-    int sum = 0;
-    for (int i = 0; i < n; i++) {
-      for (int j = 0; j < n; j++) {
-        if (i == j) {
-          sum = sum + i * j;
-        }
-      }
+    if (n < 0) {
+      return 0; // Handle negative input
     }
-    return sum;
+    return n * (n + 1) * (2 * n + 1) / 6;
   }
 
   /**
@@ -26,13 +23,10 @@ public class Double {
    * @return The sum of the first n triangular numbers.
    */
   public static int sumTriangle(int n) {
-    int sum = 0;
-    for (int i = 0; i < n + 1; i++) {
-      for (int j = 0; j < i; j++) {
-        sum = sum + j;
-      }
+    if (n < 0) {
+      return 0; // Handle negative input
     }
-    return sum;
+    return n * (n + 1) * (n + 2) / 6;
   }
 
   /**
@@ -44,20 +38,24 @@ public class Double {
    * @return The number of pairs in the array.
    */
   public static int countPairs(int[] arr) {
-    int count = 0;
-    for (int i = 0; i < arr.length; i++) {
-      int nDuplicates = 0;
-      for (int j = 0; j < arr.length; j++) {
-        if (arr[i] == arr[j]) {
-          nDuplicates++;
-        }
-      }
-      if (nDuplicates == 2) {
-        count++;
+    if (arr == null || arr.length == 0) {
+      return 0; // Handle null or empty array
+    }
+
+    HashMap<Integer, Integer> counts = new HashMap<>();
+    for (int num : arr) {
+      counts.put(num, counts.getOrDefault(num, 0) + 1);
+    }
+
+    int pairs = 0;
+    for (int count : counts.values()) {
+      if (count == 2) {
+        pairs++;
       }
     }
-    return count / 2;
+    return pairs;
   }
+
 
   /**
    * Counts the number of instances where the values at the same index are equal
@@ -68,12 +66,15 @@ public class Double {
    *         equal.
    */
   public static int countDuplicates(int[] arr0, int[] arr1) {
+    if (arr0 == null || arr1 == null) {
+      return 0; // Handle null arrays
+    }
+
     int count = 0;
-    for (int i = 0; i < arr0.length; i++) {
-      for (int j = 0; j < arr1.length; j++) {
-        if (i == j && arr0[i] == arr1[j]) {
-          count++;
-        }
+    int minLength = Math.min(arr0.length, arr1.length);
+    for (int i = 0; i < minLength; i++) {
+      if (arr0[i] == arr1[i]) {
+        count++;
       }
     }
     return count;
@@ -88,13 +89,17 @@ public class Double {
    * @return The sum of all values in the 2D array.
    */
   public static int sumMatrix(int[][] arr) {
+    if (arr == null || arr.length == 0) {
+      return 0; // Handle null or empty array
+    }
     int sum = 0;
-    int n = arr.length;
-    for (int i = 0; i < n; i++) {
-      for (int j = 0; j < n; j++) {
-        sum += arr[i][j];
+    for (int[] row : arr) {
+      for (int num : row) {
+        sum += num;
       }
     }
     return sum;
   }
 }
+
+```
