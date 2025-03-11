@@ -11,4 +11,4 @@ plugins {
 }
 
 rootProject.name = "run-java"
-include("app")
+include(":app") // Added ':' to specify the project path more explicitly
