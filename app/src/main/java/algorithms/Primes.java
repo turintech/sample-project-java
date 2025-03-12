@@ -2,39 +2,44 @@ package algorithms;
 import java.util.Vector;
 
 public class Primes {
-  /**
-   * Checks if a number is prime
-   * test comment
-   * @param n The number to check.
-   * @return True if the number is prime, false otherwise.
-   */
+   /**
+    * Checks if a number is prime
+    * test comment
+    * @param n The number to check.
+    * @return True if the number is prime, false otherwise.
+    */
   public static boolean IsPrime(int n) {
-    if (n < 2) {
+    if (n <= 1) { // Optimization: Handles n = 0 and n = 1 directly
       return false;
     }
-    for (int i = 2; i * i <= n; i++) { // Optimized loop condition
-      if (n % i == 0) {
+    if (n <= 3) { // Optimization: Handles n = 2 and n = 3 directly
+      return true;
+    }
+    if (n % 2 == 0 || n % 3 == 0) { // Optimization: Checks divisibility by 2 and 3
+      return false;
+    }
+    for (int i = 5; i * i <= n; i = i + 6) { // Optimized loop: Increment by 6 to skip multiples of 2 and 3
+      if (n % i == 0 || n % (i + 2) == 0) {
         return false;
       }
     }
     return true;
   }
 
-  /**
-   * Sums all prime numbers from 0 to n
-   *
-   * @param n The number of prime numbers to sum.
-   * @return The sum of the first n prime numbers.
-   */
-  public static int SumPrimes(int n) {
-    int sum = 0;
-    for (int i = 0; i < n; i++) {
-      if (IsPrime(i)) {
-        sum = sum + i;
-      }
-    }
-    return sum;
-  }
+/* Sums all prime numbers from 0 to n    
+*    
+* @param n The number of prime numbers to sum.    
+* @return The sum of the first n prime numbers.    
+*/   
+public static int SumPrimes(int n) {     
+    int sum = 0;     
+    for (int i = 2; i < n; i++) {       
+      if (IsPrime(i)) {         
+        sum = sum + i;       
+      }     
+    }     
+    return sum;   
+}
 
   /**
    * Finds all primes factors of a number
