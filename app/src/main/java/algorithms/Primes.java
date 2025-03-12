@@ -20,21 +20,20 @@ public class Primes {
     return true;
   }
 
-  /**
-   * Sums all prime numbers from 0 to n
-   *
-   * @param n The number of prime numbers to sum.
-   * @return The sum of the first n prime numbers.
-   */
-  public static int SumPrimes(int n) {
-    int sum = 0;
-    for (int i = 0; i < n; i++) {
-      if (IsPrime(i)) {
-        sum = sum + i;
-      }
-    }
-    return sum;
-  }
+/* Sums all prime numbers from 0 to n    
+*    
+* @param n The number of prime numbers to sum.    
+* @return The sum of the first n prime numbers.    
+*/   
+public static int SumPrimes(int n) {     
+    int sum = 0;     
+    for (int i = 2; i < n; i++) {       
+      if (IsPrime(i)) {         
+        sum = sum + i;       
+      }     
+    }     
+    return sum;   
+}
 
   /**
    * Finds all primes factors of a number
