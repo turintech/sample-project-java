@@ -5,6 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 public class SingleTest {
+  private static final int[] SINGLE_ELEMENT_ARRAY = { 0 };
+  private static final int[] INCREASING_ARRAY = { 1, 2, 3, 4, 5 };
+  private static final int[] REPEATING_ONE_ARRAY = { 1, 1, 1, 1, 0 };
+  private static final int[] NEGATIVE_ARRAY = { -1, -1, -1, -1, 0 };
+
   @Test
   public void testSumRange() {
     assertEquals(0, Single.sumRange(0));
@@ -17,10 +22,10 @@ public class SingleTest {
 
   @Test
   public void testMaxArray() {
-    assertEquals(0, Single.maxArray(new int[] { 0 }));
-    assertEquals(5, Single.maxArray(new int[] { 1, 2, 3, 4, 5 }));
-    assertEquals(1, Single.maxArray(new int[] { 1, 1, 1, 1, 0 }));
-    assertEquals(0, Single.maxArray(new int[] { -1, -1, -1, -1, 0 }));
+    assertEquals(0, Single.maxArray(SINGLE_ELEMENT_ARRAY));
+    assertEquals(5, Single.maxArray(INCREASING_ARRAY));
+    assertEquals(1, Single.maxArray(REPEATING_ONE_ARRAY));
+    assertEquals(0, Single.maxArray(NEGATIVE_ARRAY));
   }
 
   @Test
