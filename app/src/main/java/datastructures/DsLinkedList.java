@@ -1,7 +1,5 @@
 package datastructures;
-import java.util.ArrayList;
 import java.util.Collections;
-
 import java.util.LinkedList;
 
 public class DsLinkedList {
@@ -12,9 +10,8 @@ public class DsLinkedList {
    * @return the shuffled linked list
    */
   public static LinkedList<Integer> shuffle(LinkedList<Integer> l) {
-    ArrayList<Integer> tmp = new ArrayList<>(l);
-    Collections.shuffle(tmp);
-    return new LinkedList<>(tmp);
+    Collections.shuffle(l);
+    return new LinkedList<>(l);
   }
 
   /**

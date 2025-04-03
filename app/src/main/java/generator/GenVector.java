@@ -1,6 +1,5 @@
 package generator;
 import java.util.ArrayList;
-
 import java.util.Random;
 import java.util.Vector;
 
@@ -17,6 +16,7 @@ public class GenVector {
     ArrayList<Integer> ret = new ArrayList<>(n); // Initialize with capacity to avoid resizing
     Random rand = new Random();
 
+    // Use a single loop to add elements directly to the ArrayList
     for (int i = 0; i < n; i++) {
       ret.add(rand.nextInt(m));
     }
