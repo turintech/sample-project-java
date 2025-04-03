@@ -1,5 +1,6 @@
 package algorithms;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Primes {
   /**
@@ -12,7 +13,13 @@ public class Primes {
     if (n < 2) {
       return false;
     }
-    for (int i = 2; i * i <= n; i++) { // Optimized loop condition
+    if (n == 2) {
+      return true;
+    }
+    if (n % 2 == 0) {
+      return false;
+    }
+    for (int i = 3; i * i <= n; i += 2) { // Skip even numbers
       if (n % i == 0) {
         return false;
       }
@@ -28,9 +35,9 @@ public class Primes {
    */
   public static int SumPrimes(int n) {
     int sum = 0;
-    for (int i = 0; i < n; i++) {
+    for (int i = 2; i < n; i++) { // Start from 2 as 0 and 1 are not prime
       if (IsPrime(i)) {
-        sum = sum + i;
+        sum += i;
       }
     }
     return sum;
@@ -40,13 +47,13 @@ public class Primes {
    * Finds all primes factors of a number
    *
    * @param n The number to find the prime factors of.
-   * @return An vector of all prime factors of n.
+   * @return A list of all prime factors of n.
    */
-  public static Vector<Integer> PrimeFactors(int n) {
-    Vector<Integer> ret = new Vector<Integer>();
+  public static List<Integer> PrimeFactors(int n) {
+    List<Integer> ret = new ArrayList<>();
 
     for (int i = 2; i * i <= n; i++) { // Optimized loop condition
-      while (n % i == 0 && IsPrime(i)) { // Optimized to handle repeated factors
+      while (n % i == 0) { // No need to check IsPrime(i) here
         ret.add(i);
         n /= i; // Reduce n to avoid redundant checks.
       }

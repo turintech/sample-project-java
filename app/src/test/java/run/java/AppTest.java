@@ -3,4 +3,6 @@
  */
 package run.java;
 
-class AppTest {}
+class AppTest {
+    // No changes needed as the class is empty and serves as a placeholder for future tests.
+}

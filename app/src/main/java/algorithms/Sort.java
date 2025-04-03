@@ -22,15 +22,16 @@ public class Sort {
    */
   public static void DutchFlagPartition(Vector<Integer> v, int pivot_value) {
     int next_value = 0;
+    int size = v.size();
 
-    for (int i = 0; i < v.size(); i++) {
+    for (int i = 0; i < size; i++) {
       if (v.get(i) < pivot_value) {
         Collections.swap(v, i, next_value);
         next_value++;
       }
     }
 
-    for (int i = next_value; i < v.size(); i++) {
+    for (int i = next_value; i < size; i++) {
       if (v.get(i) == pivot_value) {
         Collections.swap(v, i, next_value);
         next_value++;
@@ -47,10 +48,10 @@ public class Sort {
    */
   public static Vector<Integer> MaxN(Vector<Integer> v, int n) {
     if (n <= 0 || n > v.size()) {
-      return new Vector<Integer>();
+      return new Vector<>();
     }
 
-    PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+    PriorityQueue<Integer> minHeap = new PriorityQueue<>(n);
     for (int i = 0; i < n; ++i) {
       minHeap.offer(v.get(i));
     }
@@ -63,7 +64,7 @@ public class Sort {
     }
 
     Vector<Integer> ret = new Vector<>(minHeap);
-    Collections.sort(ret, Collections.reverseOrder()); // Sort in descending order
+    ret.sort(Collections.reverseOrder()); // Sort in descending order
     return ret;
   }
 }
