@@ -38,32 +38,33 @@ public class Sort {
     }
   }
 
-  /**
-   * Returns the largest n elements in a vector
-   *
-   * @param v The vector to be sorted
-   * @param n The number of elements to return
-   * @return A vector of the largest n elements in v
-   */
-  public static Vector<Integer> MaxN(Vector<Integer> v, int n) {
-    if (n <= 0 || n > v.size()) {
-      return new Vector<Integer>();
-    }
-
-    PriorityQueue<Integer> minHeap = new PriorityQueue<>();
-    for (int i = 0; i < n; ++i) {
-      minHeap.offer(v.get(i));
-    }
-
-    for (int i = n; i < v.size(); ++i) {
-      if (v.get(i) > minHeap.peek()) {
-        minHeap.poll();
-        minHeap.offer(v.get(i));
-      }
-    }
-
-    Vector<Integer> ret = new Vector<>(minHeap);
-    Collections.sort(ret, Collections.reverseOrder()); // Sort in descending order
-    return ret;
+  /**    
+   * Returns the largest n elements in a vector    
+   *    
+   * @param v The vector to be sorted    
+   * @param n The number of elements to return    
+   * @return A vector of the largest n elements in v    
+   */   
+  public static Vector<Integer> MaxN(Vector<Integer> v, int n) {     
+    if (n <= 0 || n > v.size()) {       
+      return new Vector<Integer>();     
+    }      
+    PriorityQueue<Integer> minHeap = new PriorityQueue<>();     
+    for (int i = 0; i < n; ++i) {       
+      minHeap.offer(v.get(i));     
+    }      
+    // Cache the size of v to avoid calling size() repeatedly
+    int vSize = v.size();
+    for (int i = n; i < vSize; ++i) {       
+      int current = v.get(i);
+      // Only replace the smallest element if current is larger
+      if (current > minHeap.peek()) {         
+        minHeap.poll();         
+        minHeap.offer(current);       
+      }     
+    }      
+    Vector<Integer> ret = new Vector<>(minHeap);     
+    Collections.sort(ret, Collections.reverseOrder()); // Sort in descending order     
+    return ret;   
   }
 }

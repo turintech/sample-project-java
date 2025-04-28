@@ -15,27 +15,23 @@ public class Strops {
     return reversed.toString();
   }
 
-  /**
-   * Checks if a string is a palindrome
-   *
-   * @param str The string to check.
-   * @return True if the string is a palindrome, false otherwise.
-   */
-  public boolean isPalindrome(String str) {
-    if (str.length() == 0) {
-      return false;
-    }
-
-    int left = 0;
-    int right = str.length() - 1;
-    while (left < right) {
-      if (str.charAt(left) != str.charAt(right)) {
-        return false;
-      }
-      left++;
-      right--;
-    }
-
-    return true;
+  /**    
+    * Checks if a string is a palindrome    
+    *    
+    * @param str The string to check.    
+    * @return True if the string is a palindrome, false otherwise.    
+    */   
+  public boolean isPalindrome(String str) {     
+    final int len = str.length();
+    if (len == 0) {       
+      return false;     
+    }      
+    int mid = len >> 1;
+    for (int i = 0; i < mid; i++) {       
+      if (str.charAt(i) != str.charAt(len - i - 1)) {         
+        return false;       
+      }     
+    }      
+    return true;   
   }
 }
