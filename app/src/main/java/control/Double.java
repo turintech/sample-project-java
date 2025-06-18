@@ -10,11 +10,7 @@ public class Double {
   public static int sumSquare(int n) {
     int sum = 0;
     for (int i = 0; i < n; i++) {
-      for (int j = 0; j < n; j++) {
-        if (i == j) {
-          sum = sum + i * j;
-        }
-      }
+      sum = sum + i * i;
     }
     return sum;
   }
@@ -69,11 +65,10 @@ public class Double {
    */
   public static int countDuplicates(int[] arr0, int[] arr1) {
     int count = 0;
-    for (int i = 0; i < arr0.length; i++) {
-      for (int j = 0; j < arr1.length; j++) {
-        if (i == j && arr0[i] == arr1[j]) {
-          count++;
-        }
+    int minLength = Math.min(arr0.length, arr1.length);
+    for (int i = 0; i < minLength; i++) {
+      if (arr0[i] == arr1[i]) {
+        count++;
       }
     }
     return count;
