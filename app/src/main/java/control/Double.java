@@ -8,13 +8,11 @@ public class Double {
    * @return The sum of the first n natural numbers squared.
    */
   public static int sumSquare(int n) {
+    // Direct mathematical formula: sum of i^2 from 0 to n-1 is n*(n-1)*(2n-1)/6
+    // But in this case, we're summing i*i only when i==j, so it's just the sum of i^2
     int sum = 0;
     for (int i = 0; i < n; i++) {
-      for (int j = 0; j < n; j++) {
-        if (i == j) {
-          sum = sum + i * j;
-        }
-      }
+      sum += i * i;
     }
     return sum;
   }
@@ -27,10 +25,10 @@ public class Double {
    */
   public static int sumTriangle(int n) {
     int sum = 0;
-    for (int i = 0; i < n + 1; i++) {
-      for (int j = 0; j < i; j++) {
-        sum = sum + j;
-      }
+    for (int i = 1; i <= n; i++) {
+      // Formula for triangular number: T(i) = i*(i+1)/2
+      // But the original implementation sums j from 0 to i-1
+      sum += (i * (i - 1)) / 2;
     }
     return sum;
   }
@@ -44,19 +42,21 @@ public class Double {
    * @return The number of pairs in the array.
    */
   public static int countPairs(int[] arr) {
+    if (arr == null || arr.length < 2) return 0;
+    
+    // Use a frequency counter to avoid nested loops
+    java.util.HashMap<Integer, Integer> frequency = new java.util.HashMap<>();
+    for (int num : arr) {
+      frequency.put(num, frequency.getOrDefault(num, 0) + 1);
+    }
+    
     int count = 0;
-    for (int i = 0; i < arr.length; i++) {
-      int nDuplicates = 0;
-      for (int j = 0; j < arr.length; j++) {
-        if (arr[i] == arr[j]) {
-          nDuplicates++;
-        }
-      }
-      if (nDuplicates == 2) {
+    for (int freq : frequency.values()) {
+      if (freq == 2) {
         count++;
       }
     }
-    return count / 2;
+    return count;
   }
 
   /**
@@ -69,11 +69,11 @@ public class Double {
    */
   public static int countDuplicates(int[] arr0, int[] arr1) {
     int count = 0;
-    for (int i = 0; i < arr0.length; i++) {
-      for (int j = 0; j < arr1.length; j++) {
-        if (i == j && arr0[i] == arr1[j]) {
-          count++;
-        }
+    int minLength = Math.min(arr0.length, arr1.length);
+    
+    for (int i = 0; i < minLength; i++) {
+      if (arr0[i] == arr1[i]) {
+        count++;
       }
     }
     return count;
@@ -89,10 +89,9 @@ public class Double {
    */
   public static int sumMatrix(int[][] arr) {
     int sum = 0;
-    int n = arr.length;
-    for (int i = 0; i < n; i++) {
-      for (int j = 0; j < n; j++) {
-        sum += arr[i][j];
+    for (int[] row : arr) {
+      for (int val : row) {
+        sum += val;
       }
     }
     return sum;
