@@ -1,5 +1,7 @@
 package control;
 
+import java.util.HashMap;
+
 public class Double {
   /**
    * Sums all values squared from 0 to n
@@ -9,12 +11,9 @@ public class Double {
    */
   public static int sumSquare(int n) {
     int sum = 0;
+    // Optimize: Only need to sum i*i over i = 0 to n-1
     for (int i = 0; i < n; i++) {
-      for (int j = 0; j < n; j++) {
-        if (i == j) {
-          sum = sum + i * j;
-        }
-      }
+      sum += i * i;
     }
     return sum;
   }
@@ -27,10 +26,9 @@ public class Double {
    */
   public static int sumTriangle(int n) {
     int sum = 0;
-    for (int i = 0; i < n + 1; i++) {
-      for (int j = 0; j < i; j++) {
-        sum = sum + j;
-      }
+    // Triangular number T(k) = k*(k+1)/2, sum over k = 1 to n
+    for (int k = 1; k <= n; k++) {
+      sum += k * (k + 1) / 2;
     }
     return sum;
   }
@@ -45,18 +43,16 @@ public class Double {
    */
   public static int countPairs(int[] arr) {
     int count = 0;
-    for (int i = 0; i < arr.length; i++) {
-      int nDuplicates = 0;
-      for (int j = 0; j < arr.length; j++) {
-        if (arr[i] == arr[j]) {
-          nDuplicates++;
-        }
-      }
-      if (nDuplicates == 2) {
+    HashMap<Integer, Integer> freqMap = new HashMap<>();
+    for (int num : arr) {
+      freqMap.put(num, freqMap.getOrDefault(num, 0) + 1);
+    }
+    for (int v : freqMap.values()) {
+      if (v == 2) {
         count++;
       }
     }
-    return count / 2;
+    return count;
   }
 
   /**
@@ -69,11 +65,10 @@ public class Double {
    */
   public static int countDuplicates(int[] arr0, int[] arr1) {
     int count = 0;
-    for (int i = 0; i < arr0.length; i++) {
-      for (int j = 0; j < arr1.length; j++) {
-        if (i == j && arr0[i] == arr1[j]) {
-          count++;
-        }
+    int minLen = Math.min(arr0.length, arr1.length);
+    for (int i = 0; i < minLen; i++) {
+      if (arr0[i] == arr1[i]) {
+        count++;
       }
     }
     return count;
@@ -91,7 +86,7 @@ public class Double {
     int sum = 0;
     int n = arr.length;
     for (int i = 0; i < n; i++) {
-      for (int j = 0; j < n; j++) {
+      for (int j = 0; j < arr[i].length; j++) { // support jagged arrays
         sum += arr[i][j];
       }
     }

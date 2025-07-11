@@ -21,19 +21,16 @@ public class Sort {
    * @param pivot_value
    */
   public static void DutchFlagPartition(Vector<Integer> v, int pivot_value) {
-    int next_value = 0;
-
-    for (int i = 0; i < v.size(); i++) {
-      if (v.get(i) < pivot_value) {
-        Collections.swap(v, i, next_value);
-        next_value++;
-      }
-    }
-
-    for (int i = next_value; i < v.size(); i++) {
-      if (v.get(i) == pivot_value) {
-        Collections.swap(v, i, next_value);
-        next_value++;
+    int smaller = 0, equal = 0, larger = v.size() - 1;
+    // Use three-way partitioning for O(n) partition in-place
+    while (equal <= larger) {
+      int value = v.get(equal);
+      if (value < pivot_value) {
+        Collections.swap(v, smaller++, equal++);
+      } else if (value == pivot_value) {
+        equal++;
+      } else {
+        Collections.swap(v, equal, larger--);
       }
     }
   }
@@ -50,20 +47,22 @@ public class Sort {
       return new Vector<Integer>();
     }
 
-    PriorityQueue<Integer> minHeap = new PriorityQueue<>();
-    for (int i = 0; i < n; ++i) {
-      minHeap.offer(v.get(i));
-    }
-
-    for (int i = n; i < v.size(); ++i) {
-      if (v.get(i) > minHeap.peek()) {
+    // Use a fixed-size minHeap of size n (saves memory)
+    PriorityQueue<Integer> minHeap = new PriorityQueue<>(n);
+    for (int i = 0; i < v.size(); ++i) {
+      if (minHeap.size() < n) {
+        minHeap.offer(v.get(i));
+      } else if (v.get(i) > minHeap.peek()) {
         minHeap.poll();
         minHeap.offer(v.get(i));
       }
     }
 
-    Vector<Integer> ret = new Vector<>(minHeap);
-    Collections.sort(ret, Collections.reverseOrder()); // Sort in descending order
+    Vector<Integer> ret = new Vector<>(n);
+    while (!minHeap.isEmpty()) {
+      ret.add(minHeap.poll());
+    }
+    Collections.reverse(ret); // Now the largest is first, descending order
     return ret;
   }
 }

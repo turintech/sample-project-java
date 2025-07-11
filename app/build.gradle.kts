@@ -25,19 +25,32 @@ dependencies {
     implementation(libs.guava)
 }
 
-// Apply a specific Java toolchain to ease working on different environments.
 java {
+    // Apply a specific Java toolchain to ease working on different environments.
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(17))
+        // Enable download to use the minimal required JDK version instead of system-wide one, saving space in CI/CD.
+        vendor.set(org.gradle.jvm.toolchain.JvmVendorSpec.ADOPTIUM)
+        // Optional: Force minimal toolchain resolution (improves configuration time in CI)
+        // preferMinimumVersion.set(true)
     }
 }
 
 application {
     // Define the main class for the application.
     mainClass.set("run.java.App")
+    // Lazily evaluate so configuration avoids evaluating eagerly until necessary.
+    // mainClass.set(provider { "run.java.App" })
 }
 
 tasks.named<Test>("test") {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
+    // Reduce memory usage and speed up parallel test execution (if test suite is large).
+    maxParallelForks = Runtime.getRuntime().availableProcessors().coerceAtMost(2)
+    // Uncomment to further reduce memory on low-memory CI runners:
+    // forkEvery = 1
+    // jvmArgs("-Xmx512m")
+    // Enable only when needed to speed up clean builds:
+    // outputs.upToDateWhen { false }
 }

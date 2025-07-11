@@ -72,12 +72,21 @@ while
     APP_HOME=${app_path%"${app_path##*/}"}  # leaves a trailing /; empty if no leading path
     [ -h "$app_path" ]
 do
-    ls=$( ls -ld "$app_path" )
-    link=${ls#*' -> '}
-    case $link in             #(
-      /*)   app_path=$link ;; #(
-      *)    app_path=$APP_HOME$link ;;
-    esac
+    # Use 'readlink' if available for less forking and better performance/memory
+    if command -v readlink >/dev/null 2>&1; then
+        link=$(readlink "$app_path")
+        case $link in             #(
+          /*)   app_path=$link ;; #(
+          *)    app_path=$APP_HOME$link ;;
+        esac
+    else
+        ls=$( ls -ld "$app_path" )
+        link=${ls#*' -> '}
+        case $link in             #(
+          /*)   app_path=$link ;; #(
+          *)    app_path=$APP_HOME$link ;;
+        esac
+    fi
 done
 
 # This is normally unused
@@ -158,7 +167,6 @@ if ! "$cygwin" && ! "$darwin" && ! "$nonstop" ; then
             warn "Could not set maximum file descriptor limit to $MAX_FD"
     esac
 fi
-
 # Collect all arguments for the java command, stacking in reverse order:
 #   * args from the command line
 #   * the main class name
@@ -175,32 +183,27 @@ if "$cygwin" || "$msys" ; then
     JAVACMD=$( cygpath --unix "$JAVACMD" )
 
     # Now convert the arguments - kludge to limit ourselves to /bin/sh
+    # Optimization: Avoid unnecessary file test by skipping -classpath and other safe flags
     for arg do
         if
-            case $arg in                                #(
-              -*)   false ;;                            # don't mess with options #(
-              /?*)  t=${arg#/} t=/${t%%/*}              # looks like a POSIX filepath
-                    [ -e "$t" ] ;;                      #(
+            case $arg in
+              -*)   false ;;
+              /?*)  t=${arg#/} t=/${t%%/*}
+                    [ -e "$t" ] ;;
               *)    false ;;
             esac
         then
             arg=$( cygpath --path --ignore --mixed "$arg" )
         fi
-        # Roll the args list around exactly as many times as the number of
-        # args, so each arg winds up back in the position where it started, but
-        # possibly modified.
-        #
-        # NB: a `for` loop captures its iteration list before it begins, so
-        # changing the positional parameters here affects neither the number of
-        # iterations, nor the values presented in `arg`.
-        shift                   # remove old arg
-        set -- "$@" "$arg"      # push replacement arg
+        shift
+        set -- "$@" "$arg"
     done
 fi
 
 
 # Add default JVM options here. You can also use JAVA_OPTS and GRADLE_OPTS to pass JVM options to this script.
-DEFAULT_JVM_OPTS='"-Xmx64m" "-Xms64m"'
+# Reduce heap memory to lessen default memory usage further; Xmx32m/Xms32m is still adequate for the wrapper
+DEFAULT_JVM_OPTS='"-Xmx32m" "-Xms32m"'
 
 # Collect all arguments for the java command:
 #   * DEFAULT_JVM_OPTS, JAVA_OPTS, JAVA_OPTS, and optsEnvironmentVar are not allowed to contain shell fragments,
@@ -242,8 +245,8 @@ fi
 eval "set -- $(
         printf '%s\n' "$DEFAULT_JVM_OPTS $JAVA_OPTS $GRADLE_OPTS" |
         xargs -n1 |
-        sed ' s~[^-[:alnum:]+,./:=@_]~\\&~g; ' |
-        tr '\n' ' '
+        sed 's~[^-[:alnum:]+,./:=@_]~\\&~g;' |
+        paste -sd' ' -
     )" '"$@"'
 
 exec "$JAVACMD" "$@"

@@ -3,4 +3,12 @@
  */
 package run.java;
 
-class AppTest {}
+// The original AppTest was an empty class. No runtime or memory usage can be optimized.
+// However, we can mark the class as 'final' to prevent unnecessary subclassing
+// and use a package-private constructor to prevent instantiation, which can have 
+// marginal impact in certain contexts.
+
+final class AppTest {
+    // Prevent instantiation
+    private AppTest() {}
+}
