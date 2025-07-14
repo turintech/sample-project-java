@@ -1,5 +1,6 @@
 package datastructures;
 
+import java.util.Collections; // Added import for Collections utility class
 import java.util.Vector;
 
 public class DsVector {
@@ -39,17 +40,14 @@ public class DsVector {
    * @return the sorted vector
    */
   public static Vector<Integer> sortVector(Vector<Integer> v) {
+    // Create a copy of the input vector as the original method returns a new sorted vector.
     Vector<Integer> ret = new Vector<Integer>(v);
 
-    for (int i = 0; i < ret.size(); i++) {
-      for (int j = 0; j < ret.size() - 1; j++) {
-        if (ret.get(j) > ret.get(j + 1)) {
-          int temp = ret.get(j);
-          ret.set(j, ret.get(j + 1));
-          ret.set(j + 1, temp);
-        }
-      }
-    }
+    // Replace the inefficient O(N^2) bubble sort with Collections.sort,
+    // which typically uses Timsort (O(N log N) average and worst case).
+    // This significantly improves runtime performance for larger vectors.
+    Collections.sort(ret);
+
     return ret;
   }
 
@@ -60,11 +58,12 @@ public class DsVector {
    * @return the reversed vector
    */
   public static Vector<Integer> reverseVector(Vector<Integer> v) {
-    Vector<Integer> ret = new Vector<Integer>();
+    // Create a copy of the input vector as the original method returns a new reversed vector.
+    Vector<Integer> ret = new Vector<Integer>(v);
 
-    for (int i = v.size() - 1; i >= 0; i--) {
-      ret.add(v.get(i));
-    }
+    // Use Collections.reverse for an optimized in-place reversal.
+    // This is generally more efficient than a manual loop due to native implementations.
+    Collections.reverse(ret);
     return ret;
   }
 
@@ -76,14 +75,12 @@ public class DsVector {
    * @return the rotated vector
    */
   public static Vector<Integer> rotateVector(Vector<Integer> v, int n) {
-    Vector<Integer> ret = new Vector<Integer>();
+    // Create a copy of the input vector as the original method returns a new rotated vector.
+    Vector<Integer> ret = new Vector<Integer>(v);
 
-    for (int i = n; i < v.size(); i++) {
-      ret.add(v.get(i));
-    }
-    for (int i = 0; i < n; i++) {
-      ret.add(v.get(i));
-    }
+    // Use Collections.rotate for an optimized in-place rotation.
+    // This is generally more efficient than a manual loop and handles rotation logic robustly.
+    Collections.rotate(ret, n);
     return ret;
   }
 
@@ -96,14 +93,17 @@ public class DsVector {
    */
   public static Vector<Integer> mergeVectors(Vector<Integer> v1,
       Vector<Integer> v2) {
-    Vector<Integer> ret = new Vector<Integer>();
+    // Pre-allocate the capacity of the new vector to the sum of the sizes of v1 and v2.
+    // This reduces the number of reallocations (and associated memory copying)
+    // that occur as elements are added, improving both runtime and memory efficiency.
+    Vector<Integer> ret = new Vector<Integer>(v1.size() + v2.size());
 
-    for (int i = 0; i < v1.size(); i++) {
-      ret.add(v1.get(i));
-    }
-    for (int i = 0; i < v2.size(); i++) {
-      ret.add(v2.get(i));
-    }
+    // Use addAll for bulk addition. This is often more efficient than adding
+    // elements one by one in a loop, as addAll can potentially optimize the process
+    // and leverage the pre-allocated capacity.
+    ret.addAll(v1);
+    ret.addAll(v2);
+
     return ret;
   }
 }
