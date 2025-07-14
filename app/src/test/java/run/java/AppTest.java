@@ -3,4 +3,4 @@
  */
 package run.java;
 
-class AppTest {}
+final class AppTest {}

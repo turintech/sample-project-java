@@ -68,17 +68,15 @@
 app_path=$0
 
 # Need this for daisy-chained symlinks.
-while
-    APP_HOME=${app_path%"${app_path##*/}"}  # leaves a trailing /; empty if no leading path
-    [ -h "$app_path" ]
-do
-    ls=$( ls -ld "$app_path" )
-    link=${ls#*' -> '}
+while [ -h "$app_path" ]; do
+    APP_HOME=${app_path%"${app_path##*/}"} # leaves a trailing /; empty if no leading path
+    link=$(command readlink "$app_path")
     case $link in             #(
       /*)   app_path=$link ;; #(
       *)    app_path=$APP_HOME$link ;;
     esac
 done
+APP_HOME=${app_path%"${app_path##*/}"}
 
 # This is normally unused
 # shellcheck disable=SC2034
@@ -242,8 +240,7 @@ fi
 eval "set -- $(
         printf '%s\n' "$DEFAULT_JVM_OPTS $JAVA_OPTS $GRADLE_OPTS" |
         xargs -n1 |
-        sed ' s~[^-[:alnum:]+,./:=@_]~\\&~g; ' |
-        tr '\n' ' '
+        awk '{gsub(/[^[:alnum:]+,./:=@_-]/, "\\\\&"); printf "%s ", $0}'
     )" '"$@"'
 
 exec "$JAVACMD" "$@"

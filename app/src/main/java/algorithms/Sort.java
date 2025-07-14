@@ -1,5 +1,6 @@
 package algorithms;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.PriorityQueue;
 import java.util.Vector;
@@ -21,19 +22,18 @@ public class Sort {
    * @param pivot_value
    */
   public static void DutchFlagPartition(Vector<Integer> v, int pivot_value) {
-    int next_value = 0;
+    int low = 0;
+    int mid = 0;
+    int high = v.size() - 1;
 
-    for (int i = 0; i < v.size(); i++) {
-      if (v.get(i) < pivot_value) {
-        Collections.swap(v, i, next_value);
-        next_value++;
-      }
-    }
-
-    for (int i = next_value; i < v.size(); i++) {
-      if (v.get(i) == pivot_value) {
-        Collections.swap(v, i, next_value);
-        next_value++;
+    while (mid <= high) {
+      int cmp = v.get(mid).compareTo(pivot_value);
+      if (cmp < 0) {
+        Collections.swap(v, low++, mid++);
+      } else if (cmp > 0) {
+        Collections.swap(v, mid, high--);
+      } else {
+        mid++;
       }
     }
   }
@@ -50,10 +50,8 @@ public class Sort {
       return new Vector<Integer>();
     }
 
-    PriorityQueue<Integer> minHeap = new PriorityQueue<>();
-    for (int i = 0; i < n; ++i) {
-      minHeap.offer(v.get(i));
-    }
+    // Build the min-heap in linear time from the first n elements.
+    PriorityQueue<Integer> minHeap = new PriorityQueue<>(v.subList(0, n));
 
     for (int i = n; i < v.size(); ++i) {
       if (v.get(i) > minHeap.peek()) {
@@ -62,8 +60,13 @@ public class Sort {
       }
     }
 
-    Vector<Integer> ret = new Vector<>(minHeap);
-    Collections.sort(ret, Collections.reverseOrder()); // Sort in descending order
+    Vector<Integer> ret = new Vector<>(n);
+    ret.setSize(n);
+    // Poll elements from min-heap (ascending order) and insert into vector from the end
+    // to get the final result in descending order.
+    for (int i = n - 1; i >= 0; --i) {
+      ret.set(i, minHeap.poll());
+    }
     return ret;
   }
 }

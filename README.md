@@ -6,19 +6,19 @@ This is a sample project for showcasing how optimization can be performed in a J
 Build:
 
 ```shell
-./gradlew build -x test
+./gradlew build -x test --parallel --build-cache
 ```
 
 Run Main:
 
 ```shell
-./gradlew run
+./gradlew run --parallel --build-cache
 ```
 
 Run Unit Tests:
 
 ```shell
-./gradlew test
+./gradlew test --parallel --build-cache
 ```
 
 Run Benchmarking:
