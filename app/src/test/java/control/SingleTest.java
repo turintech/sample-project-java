@@ -5,6 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 public class SingleTest {
+  private static final int[] MAX_ARRAY_1 = { 0 };
+  private static final int[] MAX_ARRAY_2 = { 1, 2, 3, 4, 5 };
+  private static final int[] MAX_ARRAY_3 = { 1, 1, 1, 1, 0 };
+  private static final int[] MAX_ARRAY_4 = { -1, -1, -1, -1, 0 };
+
   @Test
   public void testSumRange() {
     assertEquals(0, Single.sumRange(0));
@@ -17,10 +22,10 @@ public class SingleTest {
 
   @Test
   public void testMaxArray() {
-    assertEquals(0, Single.maxArray(new int[] { 0 }));
-    assertEquals(5, Single.maxArray(new int[] { 1, 2, 3, 4, 5 }));
-    assertEquals(1, Single.maxArray(new int[] { 1, 1, 1, 1, 0 }));
-    assertEquals(0, Single.maxArray(new int[] { -1, -1, -1, -1, 0 }));
+    assertEquals(0, Single.maxArray(MAX_ARRAY_1));
+    assertEquals(5, Single.maxArray(MAX_ARRAY_2));
+    assertEquals(1, Single.maxArray(MAX_ARRAY_3));
+    assertEquals(0, Single.maxArray(MAX_ARRAY_4));
   }
 
   @Test
