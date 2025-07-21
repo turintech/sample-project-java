@@ -44,22 +44,23 @@ public class App {
 
         System.out.println("Vector");
         System.out.println("------");
+        final String inputVecStr = inputVec.toString();
         System.out.println(
-                String.format("ModifyVector(%s): %s", inputVec.toString(),
+                String.format("ModifyVector(%s): %s", inputVecStr,
                         DsVector.modifyVector(inputVec).toString()));
         System.out.println(String.format("SearchVector(%s, 5): %s",
-                inputVec.toString(),
+                inputVecStr,
                 DsVector.searchVector(inputVec, 5)));
-        System.out.println(String.format("SortVector(%s): %s", inputVec.toString(),
+        System.out.println(String.format("SortVector(%s): %s", inputVecStr,
                 DsVector.sortVector(inputVec).toString()));
         System.out.println(
-                String.format("ReverseVector(%s): %s", inputVec.toString(),
+                String.format("ReverseVector(%s): %s", inputVecStr,
                         DsVector.reverseVector(inputVec).toString()));
         System.out.println(
-                String.format("RotateVector(%s, 3): %s", inputVec.toString(),
+                String.format("RotateVector(%s, 3): %s", inputVecStr,
                         DsVector.rotateVector(inputVec, 3).toString()));
         System.out.println(String.format(
-                "MergeVectors(%s, %s): %s", inputVec.toString(), inputVec2.toString(),
+                "MergeVectors(%s, %s): %s", inputVecStr, inputVec2.toString(),
                 DsVector.mergeVectors(inputVec, inputVec2).toString()));
 
         System.out.println();
@@ -80,16 +81,18 @@ public class App {
         Vector<Integer> initialVec = GenVector.generateVector(20, 10);
         System.out.println("Sort");
         System.out.println("------");
+        final String initialVecStr = initialVec.toString();
         Vector<Integer> inputVec0 = new Vector<Integer>(initialVec);
         Sort.SortVector(inputVec0);
         System.out.println(String.format(
-                "SortVector(%s): %s", initialVec.toString(), inputVec0.toString()));
+                "SortVector(%s): %s", initialVecStr, inputVec0.toString()));
         Vector<Integer> inputVec1 = new Vector<Integer>(initialVec);
         Sort.DutchFlagPartition(inputVec1, 5);
+        final String inputVec1Str = inputVec1.toString();
         System.out.println(String.format("DutchFlagPartition(%s, 5): %s",
-                inputVec1.toString(),
-                inputVec1.toString()));
-        System.out.println(String.format("MaxN(%s, 5): %s", initialVec.toString(),
+                inputVec1Str,
+                inputVec1Str));
+        System.out.println(String.format("MaxN(%s, 5): %s", initialVecStr,
                 Sort.MaxN(initialVec, 5).toString()));
         System.out.println();
     }
