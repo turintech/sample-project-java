@@ -22,8 +22,9 @@ public class Strops {
    * @return True if the string is a palindrome, false otherwise.
    */
   public boolean isPalindrome(String str) {
-    if (str.length() == 0) {
-      return false;
+    // Empty strings and single characters are palindromes
+    if (str.length() <= 1) {
+      return true;
     }
 
     int left = 0;
