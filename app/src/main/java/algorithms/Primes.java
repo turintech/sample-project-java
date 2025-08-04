@@ -1,5 +1,5 @@
 package algorithms;
-import java.util.Vector;
+import java.util.ArrayList; // Use ArrayList for better performance and lower memory overhead.
 
 public class Primes {
   /**
@@ -12,7 +12,13 @@ public class Primes {
     if (n < 2) {
       return false;
     }
-    for (int i = 2; i * i <= n; i++) { // Optimized loop condition
+    if (n == 2) {
+      return true;
+    }
+    if (n % 2 == 0) {
+      return false;
+    }
+    for (int i = 3; i * i <= n; i += 2) { // Skip even numbers
       if (n % i == 0) {
         return false;
       }
@@ -28,9 +34,10 @@ public class Primes {
    */
   public static int SumPrimes(int n) {
     int sum = 0;
-    for (int i = 0; i < n; i++) {
+    if (n > 2) sum += 2;
+    for (int i = 3; i < n; i += 2) { // Only check odd numbers
       if (IsPrime(i)) {
-        sum = sum + i;
+        sum += i;
       }
     }
     return sum;
@@ -42,17 +49,22 @@ public class Primes {
    * @param n The number to find the prime factors of.
    * @return An vector of all prime factors of n.
    */
-  public static Vector<Integer> PrimeFactors(int n) {
-    Vector<Integer> ret = new Vector<Integer>();
+  public static ArrayList<Integer> PrimeFactors(int n) {
+    ArrayList<Integer> ret = new ArrayList<Integer>();
 
-    for (int i = 2; i * i <= n; i++) { // Optimized loop condition
-      while (n % i == 0 && IsPrime(i)) { // Optimized to handle repeated factors
+    // Handle 2 separately to allow skipping even numbers later
+    while (n % 2 == 0) {
+      ret.add(2);
+      n /= 2;
+    }
+    for (int i = 3; i * i <= n; i += 2) {
+      while (n % i == 0) {
         ret.add(i);
-        n /= i; // Reduce n to avoid redundant checks.
+        n /= i;
       }
     }
-    if (n > 1) { // Add any remaining prime factor.
-        ret.add(n);
+    if (n > 1) {
+      ret.add(n);
     }
     return ret;
   }
