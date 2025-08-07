@@ -1,7 +1,5 @@
 package control;
 
-import java.util.Vector;
-
 public class Single {
   /**
    * This method is used to calculate the sum of the first n natural numbers.
@@ -11,12 +9,8 @@ public class Single {
    * @return The sum of the first n natural numbers.
    */
   public static int sumRange(int n) {
-    int[] arr = new int[n];
     int sum = 0;
     for (int i = 0; i < n; i++) {
-      arr[i] = i;
-    }
-    for (int i : arr) {
       sum += i;
     }
     return sum;
@@ -29,7 +23,10 @@ public class Single {
    * @return The maximum value in the array.
    */
   public static int maxArray(int[] arr) {
-    int max = 0;
+    if (arr.length == 0) {
+      return 0;
+    }
+    int max = arr[0];
     for (int i : arr) {
       if (i > max) {
         max = i;
@@ -39,19 +36,21 @@ public class Single {
   }
 
   /**
-   * This method calculates the sum of the first n natural numbers, modulo m.
+   * This method calculates the sum of multiples of m that are less than n.
    *
-   * @param n The number of natural numbers to sum.
-   * @param m The modulus.
+   * @param n The upper bound (exclusive).
+   * @param m The number whose multiples are to be summed.
    */
   public static int sumModulus(int n, int m) {
-    Vector<Integer> multiples = new Vector<Integer>();
+    if (m == 0) {
+      return 0;
+    }
+    int sum = 0;
     for (int i = 0; i < n; i++) {
       if (i % m == 0) {
-        multiples.add(i);
+        sum += i;
       }
     }
-
-    return multiples.stream().mapToInt(Integer::valueOf).sum();
+    return sum;
   }
 }
