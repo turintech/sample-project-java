@@ -1,5 +1,5 @@
 package algorithms;
-import java.util.ArrayList; // Use ArrayList for better performance and lower memory overhead.
+import java.util.ArrayList;
 
 public class Primes {
   /**
@@ -18,7 +18,7 @@ public class Primes {
     if (n % 2 == 0) {
       return false;
     }
-    for (int i = 3; i * i <= n; i += 2) { // Skip even numbers
+    for (int i = 3; i * i <= n; i += 2) { // Optimized loop condition
       if (n % i == 0) {
         return false;
       }
@@ -34,10 +34,9 @@ public class Primes {
    */
   public static int SumPrimes(int n) {
     int sum = 0;
-    if (n > 2) sum += 2;
-    for (int i = 3; i < n; i += 2) { // Only check odd numbers
+    for (int i = 2; i < n; i++) {
       if (IsPrime(i)) {
-        sum += i;
+        sum = sum + i;
       }
     }
     return sum;
@@ -52,19 +51,20 @@ public class Primes {
   public static ArrayList<Integer> PrimeFactors(int n) {
     ArrayList<Integer> ret = new ArrayList<Integer>();
 
-    // Handle 2 separately to allow skipping even numbers later
+    // Handle factor 2 separately
     while (n % 2 == 0) {
       ret.add(2);
       n /= 2;
     }
-    for (int i = 3; i * i <= n; i += 2) {
-      while (n % i == 0) {
+
+    for (int i = 3; i * i <= n; i += 2) { // Optimized loop condition
+      while (n % i == 0) { // Optimized to handle repeated factors
         ret.add(i);
-        n /= i;
+        n /= i; // Reduce n to avoid redundant checks.
       }
     }
-    if (n > 1) {
-      ret.add(n);
+    if (n > 1) { // Add any remaining prime factor.
+        ret.add(n);
     }
     return ret;
   }
