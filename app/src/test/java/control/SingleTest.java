@@ -21,6 +21,10 @@ public class SingleTest {
     assertEquals(5, Single.maxArray(new int[] { 1, 2, 3, 4, 5 }));
     assertEquals(1, Single.maxArray(new int[] { 1, 1, 1, 1, 0 }));
     assertEquals(0, Single.maxArray(new int[] { -1, -1, -1, -1, 0 }));
+    // Test case that exposes the bug: all negative numbers
+    assertEquals(-1, Single.maxArray(new int[] { -5, -3, -8, -1 }));
+    assertEquals(-10, Single.maxArray(new int[] { -10 }));
+    assertEquals(-2, Single.maxArray(new int[] { -5, -2, -9, -3 }));
   }
 
   @Test

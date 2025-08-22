@@ -29,7 +29,11 @@ public class Single {
    * @return The maximum value in the array.
    */
   public static int maxArray(int[] arr) {
-    int max = 0;
+    if (arr.length == 0) {
+      throw new IllegalArgumentException("Array cannot be empty");
+    }
+    
+    int max = arr[0]; // Initialize to first element instead of 0
     for (int i : arr) {
       if (i > max) {
         max = i;
