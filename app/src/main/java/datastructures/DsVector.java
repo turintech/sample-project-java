@@ -6,7 +6,7 @@ public class DsVector {
   /**
    * Adds 1 to each element of the vector
    *
-   * @param arr the vector to be incremented
+   * @param v the vector to be incremented
    * @return the incremented vector
    */
   public static Vector<Integer> modifyVector(Vector<Integer> v) {
@@ -20,7 +20,8 @@ public class DsVector {
    * Searches the vector for all instances of n
    *
    * @param v the vector to be searched
-   * @ A vector of all indices where n was found
+   * @param n the value to search for
+   * @return A vector of all indices where n was found
    */
   public static Vector<Integer> searchVector(Vector<Integer> v, int n) {
     Vector<Integer> indices = new Vector<Integer>();
@@ -41,8 +42,8 @@ public class DsVector {
   public static Vector<Integer> sortVector(Vector<Integer> v) {
     Vector<Integer> ret = new Vector<Integer>(v);
 
-    for (int i = 0; i < ret.size(); i++) {
-      for (int j = 0; j < ret.size() - 1; j++) {
+    for (int i = 0; i < ret.size() - 1; i++) {
+      for (int j = 0; j < ret.size() - 1 - i; j++) {
         if (ret.get(j) > ret.get(j + 1)) {
           int temp = ret.get(j);
           ret.set(j, ret.get(j + 1));
@@ -76,7 +77,12 @@ public class DsVector {
    * @return the rotated vector
    */
   public static Vector<Integer> rotateVector(Vector<Integer> v, int n) {
+    if (v.isEmpty()) {
+      return new Vector<Integer>();
+    }
+    
     Vector<Integer> ret = new Vector<Integer>();
+    n = n % v.size(); // Handle cases where n > v.size()
 
     for (int i = n; i < v.size(); i++) {
       ret.add(v.get(i));
