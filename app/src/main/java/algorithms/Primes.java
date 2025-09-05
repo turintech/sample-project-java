@@ -4,7 +4,6 @@ import java.util.Vector;
 public class Primes {
   /**
    * Checks if a number is prime
-   * test comment
    * @param n The number to check.
    * @return True if the number is prime, false otherwise.
    */
@@ -21,10 +20,10 @@ public class Primes {
   }
 
   /**
-   * Sums all prime numbers from 0 to n
+   * Sums all prime numbers from 0 up to (but not including) n.
    *
-   * @param n The number of prime numbers to sum.
-   * @return The sum of the first n prime numbers.
+   * @param n The upper limit (exclusive) for finding prime numbers to sum.
+   * @return The sum of prime numbers less than n.
    */
   public static int SumPrimes(int n) {
     int sum = 0;

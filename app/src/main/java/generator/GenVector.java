@@ -14,14 +14,16 @@ public class GenVector {
    */
   public static Vector<Integer> generateVector(int n, int m) {
     // Use ArrayList for better performance. Vectors are synchronized, which adds overhead.
-    ArrayList<Integer> ret = new ArrayList<>(n); // Initialize with capacity to avoid resizing
+    // Initialize ArrayList with capacity 'n' to minimize reallocations as elements are added.
+    ArrayList<Integer> ret = new ArrayList<>(n); 
     Random rand = new Random();
 
     for (int i = 0; i < n; i++) {
       ret.add(rand.nextInt(m));
     }
 
-    // Convert back to vector if the return type must be Vector.
+    // Convert back to vector as the method's return type is Vector.
+    // This maintains the contract of the method signature.
     return new Vector<>(ret); 
   }
 }
