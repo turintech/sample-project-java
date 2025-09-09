@@ -2,24 +2,15 @@ package control;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
-/**
- * Utility class for double-indexed and pair-wise array operations.
- * Not instantiable.
- */
-public final class Double {
-  private Double() {
-    throw new AssertionError("Utility class - not to be instantiated");
-  }
+public class Double {
   /**
-   * Sums all squares of values from 0 to n-1.
+   * Sums all values squared from 0 to n
    *
-   * @param n the exclusive upper bound, requires n >= 0
-   * @return the sum of squares of the first n natural numbers
+   * @param n The number of natural numbers to sum.
+   * @return The sum of the first n natural numbers squared.
    */
-  public static int sumSquare(final int n) {
-    if (n <= 0) return 0;
+  public static int sumSquare(int n) {
     int sum = 0;
     for (int i = 0; i < n; i++) {
       sum += i * i;
@@ -28,35 +19,39 @@ public final class Double {
   }
 
   /**
-   * Sums the first n triangular numbers, i.e., sum of T(i) for i = 0 to n-1, where T(i) = i * (i + 1) / 2.
+   * Sums all triangular numbers from T(1) to T(n)
    *
-   * @param n number of terms to sum, requires n >= 0
-   * @return the sum of the first n triangular numbers (starting at T(0) = 0)
+   * @param n The number of triangular numbers to sum.
+   * @return The sum of the first n triangular numbers.
    */
-  public static int sumTriangle(final int n) {
-    if (n <= 0) return 0;
+  public static int sumTriangle(int n) {
+    if (n <= 0) {
+      return 0;
+    }
     int sum = 0;
-    for (int i = 0; i < n; i++) {
-      sum += i * (i + 1) / 2;
+    int triangularNumber = 0;
+    for (int i = 1; i <= n; i++) {
+      triangularNumber += i;
+      sum += triangularNumber;
     }
     return sum;
   }
 
   /**
-   * Counts the number of distinct values that occur exactly twice in an array.
+   * Counts the number of pairs in an array
    *
-   * @param arr the input array, not null
-   * @return number of distinct values that appear exactly twice
-   * @throws NullPointerException if the array is null
+   * A pair is any value that is repeated exactly twice in the array.
+   *
+   * @param arr The array of integers.
+   * @return The number of pairs in the array.
    */
-  public static int countPairs(final int[] arr) {
-    Objects.requireNonNull(arr, "Input array cannot be null");
+  public static int countPairs(int[] arr) {
     Map<Integer, Integer> counts = new HashMap<>();
-    for (final int value : arr) {
+    for (int value : arr) {
       counts.put(value, counts.getOrDefault(value, 0) + 1);
     }
     int pairs = 0;
-    for (final int count : counts.values()) {
+    for (int count : counts.values()) {
       if (count == 2) {
         pairs++;
       }
@@ -65,17 +60,14 @@ public final class Double {
   }
 
   /**
-   * Counts the number of positions at which two arrays have the same value.
-   * Only the overlapping range (up to the shorter array's length) is compared.
+   * Counts the number of instances where the values at the same index are equal
    *
-   * @param arr0 first array, not null
-   * @param arr1 second array, not null
-   * @return number of indices i such that arr0[i] == arr1[i]
-   * @throws NullPointerException if either array is null
+   * @param arr0 The first array of integers.
+   * @param arr1 The second array of integers.
+   * @return The number of instances where the values at the same index are
+   *         equal.
    */
-  public static int countDuplicates(final int[] arr0, final int[] arr1) {
-    Objects.requireNonNull(arr0, "First array cannot be null");
-    Objects.requireNonNull(arr1, "Second array cannot be null");
+  public static int countDuplicates(int[] arr0, int[] arr1) {
     int count = 0;
     int length = Math.min(arr0.length, arr1.length);
     for (int i = 0; i < length; i++) {
@@ -87,18 +79,17 @@ public final class Double {
   }
 
   /**
-   * Sums all values in a rectangular 2D array (matrix).
+   * Sums all values in a 2D array
    *
-   * @param arr The 2D array of integers, not null
-   * @return The sum of all values in the array
-   * @throws NullPointerException if arr or any row is null
+   * note: dimensions must be equal
+   *
+   * @param arr The 2D array of integers.
+   * @return The sum of all values in the 2D array.
    */
-  public static int sumMatrix(final int[][] arr) {
-    Objects.requireNonNull(arr, "Input 2D array cannot be null");
+  public static int sumMatrix(int[][] arr) {
     int sum = 0;
-    for (final int[] row : arr) {
-      Objects.requireNonNull(row, "Row in 2D array cannot be null");
-      for (final int value : row) {
+    for (int[] row : arr) {
+      for (int value : row) {
         sum += value;
       }
     }
