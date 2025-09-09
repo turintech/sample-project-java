@@ -56,4 +56,42 @@ public class Primes {
     }
     return ret;
   }
+
+  /**
+   * Implements the Sieve of Eratosthenes algorithm to find all prime numbers up to n
+   * 
+   * @param n The upper bound to check for primes
+   * @return Boolean array where array[i] indicates if i is prime
+   */
+  private static boolean[] sieveOfEratosthenes(int n) {
+    // Handle edge case: n < 2
+    if (n < 2) {
+      return new boolean[0]; // Return empty array for n < 2
+    }
+    
+    // Initialize boolean array of size n, assuming all numbers are prime initially
+    boolean[] isPrime = new boolean[n];
+    for (int i = 0; i < n; i++) {
+      isPrime[i] = true;
+    }
+    
+    // Mark 0 and 1 as non-prime (if within bounds)
+    if (n > 0) isPrime[0] = false;
+    if (n > 1) isPrime[1] = false;
+    
+    // Implement sieve logic: for each prime p, mark all multiples as composite
+    // Optimize loop bounds: outer loop only needs to go up to √n
+    for (int p = 2; p * p < n; p++) {
+      // If isPrime[p] is not changed, then it is a prime
+      if (isPrime[p]) {
+        // Start marking multiples from p² (smaller multiples already marked by smaller primes)
+        for (int i = p * p; i < n; i += p) {
+          isPrime[i] = false;
+        }
+      }
+    }
+    
+    // Return the boolean array with correct prime markings
+    return isPrime;
+  }
 }
