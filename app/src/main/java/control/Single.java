@@ -1,41 +1,37 @@
 package control;
 
-/**
- * Utility methods for simple array and mathematical operations.
- */
+// The 'java.util.Vector' import is removed as it is no longer used after refactoring
+// the 'sumModulus' method. This improves clarity and reduces unnecessary dependencies.
+
 public class Single {
   /**
-   * This method is used to calculate the sum of the first n natural numbers.
-   * n exclusive
+   * Returns the sum of the first n natural numbers (0 + 1 + ... + (n-1)).
+   * <p>
+   * For n &lt;= 0, returns 0. Large n may result in integer overflow (returns negative values).
    *
-   * @param n The number of natural numbers to sum.
-   * @return The sum of the first n natural numbers.
+   * @param n The number of natural numbers to sum (exclusive upper bound)
+   * @return sum from 0 to n-1, or 0 if n &lt;= 0
    */
-  /**
-   * Returns the sum of the first n natural numbers (exclusive; sums 0..n-1).
-   *
-   * @param n The upper bound (exclusive).
-   * @return The sum of 0 + 1 + ... + (n-1), or 0 if n <= 0.
-   */
-  public static int sumRange(int n) {
-    if (n <= 0) return 0;
+  public static int sumRange(final int n) {
+    if (n <= 0) {
+      return 0;
+    }
     return n * (n - 1) / 2;
   }
 
   /**
-   * This method calculates the maximum value in an array of integers.
+   * Returns the maximum value in an array of integers.
+   * <p>
+   * If the array is empty, returns Integer.MIN_VALUE.
+   * If arr is null, returns Integer.MIN_VALUE.
    *
-   * @param arr The array of integers.
-   * @return The maximum value in the array.
+   * @param arr Array of integers (may be null)
+   * @return The maximum value in the array, or Integer.MIN_VALUE for null/empty input
    */
-  /**
-   * Finds the maximum value in an array of integers.
-   *
-   * @param arr The array of integers.
-   * @return The maximum value in the array, or Integer.MIN_VALUE if array is empty or null.
-   */
-  public static int maxArray(int[] arr) {
-    if (arr == null || arr.length == 0) return Integer.MIN_VALUE;
+  public static int maxArray(final int[] arr) {
+    if (arr == null || arr.length == 0) {
+      return Integer.MIN_VALUE;
+    }
     int max = Integer.MIN_VALUE;
     for (int i : arr) {
       if (i > max) {
@@ -46,25 +42,20 @@ public class Single {
   }
 
   /**
-   * This method calculates the sum of non-negative integers less than n that are multiples of m.
+   * Returns the sum of all numbers k such that 0 &lt;= k &lt; n and k is a multiple of m.
+   * <p>
+   * If m is zero, throws IllegalArgumentException. Returns 0 if n &lt;= 0. Negative modulus m is allowed.
    *
-   * @param n The upper bound (exclusive) for the integers.
-   * @param m The modulus.
-   * @return The sum of multiples.
-   * @throws IllegalArgumentException if m is zero.
+   * @param n upper bound (exclusive)
+   * @param m the multiple base (must not be zero)
+   * @return sum of multiples of m below n; 0 if n &lt;= 0
+   * @throws IllegalArgumentException if m == 0
    */
-  public static int sumModulus(int n, int m) {
-    // Defect fix: Modulus by zero (m == 0) results in an ArithmeticException.
-    // It is better practice to validate input and throw an IllegalArgumentException
-    // for invalid parameters, making the API contract clearer.
+  public static int sumModulus(final int n, final int m) {
+    if (n <= 0) return 0;
     if (m == 0) {
       throw new IllegalArgumentException("Modulus 'm' cannot be zero.");
     }
-
-    // Refactored to directly sum the multiples, avoiding intermediate collection creation (Vector)
-    // and stream processing overhead. This preserves the exact behavior of the original loop
-    // for both positive and negative 'm' values, while significantly improving performance
-    // and memory usage.
     int sum = 0;
     for (int i = 0; i < n; i++) {
       if (i % m == 0) {
