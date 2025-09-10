@@ -1,5 +1,8 @@
 package control;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Double {
   /**
    * Sums all values squared from 0 to n
@@ -10,11 +13,7 @@ public class Double {
   public static int sumSquare(int n) {
     int sum = 0;
     for (int i = 0; i < n; i++) {
-      for (int j = 0; j < n; j++) {
-        if (i == j) {
-          sum = sum + i * j;
-        }
-      }
+      sum += i * i;
     }
     return sum;
   }
@@ -27,10 +26,10 @@ public class Double {
    */
   public static int sumTriangle(int n) {
     int sum = 0;
-    for (int i = 0; i < n + 1; i++) {
-      for (int j = 0; j < i; j++) {
-        sum = sum + j;
-      }
+    int triangularNumber = 0;
+    for (int i = 1; i <= n; i++) {
+      triangularNumber += i;
+      sum += triangularNumber;
     }
     return sum;
   }
@@ -44,19 +43,17 @@ public class Double {
    * @return The number of pairs in the array.
    */
   public static int countPairs(int[] arr) {
-    int count = 0;
-    for (int i = 0; i < arr.length; i++) {
-      int nDuplicates = 0;
-      for (int j = 0; j < arr.length; j++) {
-        if (arr[i] == arr[j]) {
-          nDuplicates++;
-        }
-      }
-      if (nDuplicates == 2) {
-        count++;
+    Map<Integer, Integer> counts = new HashMap<>();
+    for (int value : arr) {
+      counts.put(value, counts.getOrDefault(value, 0) + 1);
+    }
+    int pairs = 0;
+    for (int count : counts.values()) {
+      if (count == 2) {
+        pairs++;
       }
     }
-    return count / 2;
+    return pairs;
   }
 
   /**
@@ -69,11 +66,10 @@ public class Double {
    */
   public static int countDuplicates(int[] arr0, int[] arr1) {
     int count = 0;
-    for (int i = 0; i < arr0.length; i++) {
-      for (int j = 0; j < arr1.length; j++) {
-        if (i == j && arr0[i] == arr1[j]) {
-          count++;
-        }
+    int length = Math.min(arr0.length, arr1.length);
+    for (int i = 0; i < length; i++) {
+      if (arr0[i] == arr1[i]) {
+        count++;
       }
     }
     return count;
@@ -87,12 +83,22 @@ public class Double {
    * @param arr The 2D array of integers.
    * @return The sum of all values in the 2D array.
    */
-  public static int sumMatrix(int[][] arr) {
+  /**
+   * Sums all values in a (square) 2D array.
+   * Null/empty-safe: returns 0 if arr or any row is null.
+   *
+   * @param arr The 2D array of integers.
+   * @return The sum of all values in the 2D array.
+   */
+  public static int sumMatrix(final int[][] arr) {
+    if (arr == null || arr.length == 0) {
+      return 0;
+    }
     int sum = 0;
-    int n = arr.length;
-    for (int i = 0; i < n; i++) {
-      for (int j = 0; j < n; j++) {
-        sum += arr[i][j];
+    for (final int[] row : arr) {
+      if (row == null) continue;
+      for (final int value : row) {
+        sum += value;
       }
     }
     return sum;

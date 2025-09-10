@@ -1,6 +1,7 @@
 package control;
 
-import java.util.Vector;
+// The 'java.util.Vector' import is removed as it is no longer used after refactoring
+// the 'sumModulus' method. This improves clarity and reduces unnecessary dependencies.
 
 public class Single {
   /**
@@ -11,15 +12,18 @@ public class Single {
    * @return The sum of the first n natural numbers.
    */
   public static int sumRange(int n) {
-    int[] arr = new int[n];
-    int sum = 0;
-    for (int i = 0; i < n; i++) {
-      arr[i] = i;
+    // Refactored to use the arithmetic series sum formula: sum(0 to n-1) = n * (n - 1) / 2.
+    // This is significantly more efficient than creating an array and iterating,
+    // avoiding array allocation and multiple loops.
+    // For n=0, the formula correctly returns 0 (sum of an empty set).
+    // For n < 0, the concept of "first n natural numbers" is ill-defined. The original
+    // code would throw a NegativeArraySizeException for n < 0. To handle invalid negative
+    // inputs gracefully without crashing, this method returns 0, aligning with the behavior
+    // for n=0 where the sum is also 0.
+    if (n < 0) {
+      return 0;
     }
-    for (int i : arr) {
-      sum += i;
-    }
-    return sum;
+    return n * (n - 1) / 2;
   }
 
   /**
@@ -29,7 +33,19 @@ public class Single {
    * @return The maximum value in the array.
    */
   public static int maxArray(int[] arr) {
-    int max = 0;
+    // Refactored to correctly handle arrays containing only negative numbers.
+    // The original implementation would incorrectly return 0 if all elements were negative
+    // (e.g., maxArray({-5, -1}) would return 0 instead of -1).
+    // Initializing 'max' with Integer.MIN_VALUE ensures correct comparison for all integer values.
+    // For an empty array (arr.length == 0), this method will now return Integer.MIN_VALUE,
+    // which is a more semantically correct sentinel than 0 for an empty set, or when no
+    // element is greater than Integer.MIN_VALUE.
+    // Passing a null array will still result in a NullPointerException, preserving that original behavior.
+    if (arr.length == 0) {
+      return Integer.MIN_VALUE;
+    }
+
+    int max = Integer.MIN_VALUE;
     for (int i : arr) {
       if (i > max) {
         max = i;
@@ -39,19 +55,35 @@ public class Single {
   }
 
   /**
-   * This method calculates the sum of the first n natural numbers, modulo m.
+   * This method calculates the sum of non-negative integers less than n that are multiples of m.
    *
-   * @param n The number of natural numbers to sum.
+   * @param n The upper bound (exclusive) for the integers.
    * @param m The modulus.
+   * @return The sum of multiples.
+   * @throws IllegalArgumentException if m is zero.
    */
-  public static int sumModulus(int n, int m) {
-    Vector<Integer> multiples = new Vector<Integer>();
+  /**
+   * Calculates the sum of all non-negative integers less than n that are multiples of m.
+   * Throws IllegalArgumentException if m == 0. Returns 0 if n <= 0.
+   *
+   * @param n upper bound (exclusive)
+   * @param m modulus
+   * @return sum of multiples
+   * @throws IllegalArgumentException if m == 0
+   */
+  public static int sumModulus(final int n, final int m) {
+    if (m == 0) {
+      throw new IllegalArgumentException("Modulus 'm' cannot be zero.");
+    }
+    if (n <= 0) {
+      return 0;
+    }
+    int sum = 0;
     for (int i = 0; i < n; i++) {
       if (i % m == 0) {
-        multiples.add(i);
+        sum += i;
       }
     }
-
-    return multiples.stream().mapToInt(Integer::valueOf).sum();
+    return sum;
   }
 }
