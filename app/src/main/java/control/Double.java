@@ -5,12 +5,18 @@ import java.util.Map;
 
 public class Double {
   /**
-   * Sums all values squared from 0 to n
+   * Sums the squares of all natural numbers from 0 up to, but not including, n.
    *
-   * @param n The number of natural numbers to sum.
-   * @return The sum of the first n natural numbers squared.
+   * Edge Cases:
+   *   If n <= 0, returns 0.
+   *
+   * @param n The upper bound (exclusive) for squaring, must be >= 0.
+   * @return The sum of the squares of all natural numbers from 0 up to n-1.
    */
   public static int sumSquare(int n) {
+    if (n <= 0) {
+      return 0;
+    }
     int sum = 0;
     for (int i = 0; i < n; i++) {
       sum += i * i;
@@ -19,12 +25,18 @@ public class Double {
   }
 
   /**
-   * Sums all triangular numbers from T(1) to T(n)
+   * Sums all triangular numbers from T(1) to T(n) (inclusive).
    *
-   * @param n The number of triangular numbers to sum.
-   * @return The sum of the first n triangular numbers.
+   * Edge Cases:
+   *   Returns 0 for n <= 0.
+   *
+   * @param n The number of triangular numbers to sum (n >= 0).
+   * @return The sum of the first n triangular numbers (0 if n <= 0).
    */
   public static int sumTriangle(int n) {
+    if (n <= 0) {
+      return 0;
+    }
     int sum = 0;
     int triangularNumber = 0;
     for (int i = 1; i <= n; i++) {
@@ -35,14 +47,20 @@ public class Double {
   }
 
   /**
-   * Counts the number of pairs in an array
+   * Counts the number of pairs in an array.
    *
    * A pair is any value that is repeated exactly twice in the array.
    *
-   * @param arr The array of integers.
-   * @return The number of pairs in the array.
+   * Edge Cases:
+   * - If arr is null, returns 0. If arr has no pairs or is empty, returns 0.
+   *
+   * @param arr The array of integers (can be null).
+   * @return The number of values with exactly two occurrences in the array.
    */
   public static int countPairs(int[] arr) {
+    if (arr == null) {
+      return 0;
+    }
     Map<Integer, Integer> counts = new HashMap<>();
     for (int value : arr) {
       counts.put(value, counts.getOrDefault(value, 0) + 1);
@@ -58,13 +76,19 @@ public class Double {
 
   /**
    * Counts the number of instances where the values at the same index are equal
+   * in two arrays.
    *
-   * @param arr0 The first array of integers.
-   * @param arr1 The second array of integers.
-   * @return The number of instances where the values at the same index are
-   *         equal.
+   * Edge Cases:
+   * - If either array is null, returns 0.
+   *
+   * @param arr0 The first array of integers (can be null).
+   * @param arr1 The second array of integers (can be null).
+   * @return The number of instances where the values at the same index are equal.
    */
   public static int countDuplicates(int[] arr0, int[] arr1) {
+    if (arr0 == null || arr1 == null) {
+      return 0;
+    }
     int count = 0;
     int length = Math.min(arr0.length, arr1.length);
     for (int i = 0; i < length; i++) {
@@ -76,28 +100,27 @@ public class Double {
   }
 
   /**
-   * Sums all values in a 2D array
+   * Sums all values in a 2D array.
    *
-   * note: dimensions must be equal
+   * Note: Only square matrices are supported by the caller, but this sums all elements in arr.
    *
-   * @param arr The 2D array of integers.
-   * @return The sum of all values in the 2D array.
+   * Edge Cases:
+   * - If arr is null or any row is null, returns 0.
+   * - If any dimension has zero length, returns 0.
+   *
+   * @param arr The 2D array of integers (can be null).
+   * @return The sum of all values in the 2D array. 0 if arr or a row is null.
    */
-  /**
-   * Sums all values in a (square) 2D array.
-   * Null/empty-safe: returns 0 if arr or any row is null.
-   *
-   * @param arr The 2D array of integers.
-   * @return The sum of all values in the 2D array.
-   */
-  public static int sumMatrix(final int[][] arr) {
-    if (arr == null || arr.length == 0) {
+  public static int sumMatrix(int[][] arr) {
+    if (arr == null) {
       return 0;
     }
     int sum = 0;
-    for (final int[] row : arr) {
-      if (row == null) continue;
-      for (final int value : row) {
+    for (int[] row : arr) {
+      if (row == null) {
+        return 0;
+      }
+      for (int value : row) {
         sum += value;
       }
     }
