@@ -22,8 +22,14 @@ public class SingleTest {
     // Large value (overflow expected: Integer.MAX_VALUE will wrap)
     int n = 65536; // (n * (n-1))/2 > Integer.MAX_VALUE, triggers overflow
     int sumJava = Single.sumRange(n); // Documented to wrap per Java semantics
-    int manual = n * (n - 1) / 2;
+    int manual = (int) ((long) n * (n - 1) / 2);
     assertEquals(manual, sumJava);
+
+    // Test safeSumRange (long version avoids overflow)
+    long manualLong = (long) n * (n - 1) / 2;
+    assertEquals(manualLong, Single.safeSumRange(n));
+    assertEquals(0L, Single.safeSumRange(0));
+    assertEquals(0L, Single.safeSumRange(-100));
   }
 
   @Test
@@ -63,6 +69,20 @@ public class SingleTest {
     assertEquals(0, Single.sumModulus(-120, 5));
     // m negative
     assertEquals(20, Single.sumModulus(10, -2)); // Negative modulus is allowed
+
+    // Compare brute force and algorithm for various combinations (up to n=100)
+    for (int m = -5; m <= 5; m++) {
+      if (m == 0) continue;
+      for (int n = 0; n <= 100; n++) {
+        int expected = 0;
+        for (int i = 0; i < n; i++) {
+          if (m > 0) { if (i % m == 0) expected += i; }
+          else if (m < 0) { if (i % -m == 0) expected += i; }
+        }
+        assertEquals(expected, Single.sumModulus(n, m), "Failed for n="+n+", m="+m);
+      }
+    }
+
     // Large n (overflow test: result will wrap)
     int sum = Single.sumModulus(65535, 2);
     int manual = 0;
@@ -70,6 +90,7 @@ public class SingleTest {
       if (i % 2 == 0) manual += i;
     }
     assertEquals(manual, sum);
+
     // m=0 should throw exception
     try {
       Single.sumModulus(10, 0);
