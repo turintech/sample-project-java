@@ -5,63 +5,67 @@ package control;
 
 public class Single {
   /**
-   * Returns the sum of the first n natural numbers (from 0 to n-1).
-   * <p>Special cases:
+   * Returns the sum of the first n natural numbers (i.e., numbers in range [0, n)).
+   * Uses the efficient arithmetic progression formula: n*(n-1)/2.
+   *
+   * <b>Boundary/Edge Cases:</b>
    * <ul>
-   *   <li>If n &lt;= 0, returns 0 (empty range).</li>
-   *   <li>If n is large enough to overflow, the result will wrap due to Java integer arithmetic.</li>
+   *   <li>If {@code n <= 0} then {@code 0} is returned.</li>
+   *   <li>If calculation overflows, result is the wrapped int per Java semantics (not checked).</li>
    * </ul>
    *
-   * @param n the (exclusive) upper bound (must be non-negative).
-   * @return the sum 0 + 1 + ... + (n-1), or 0 if n &lt;= 0.
+   * @param n Length of the range; must be non-negative for the mathematical meaning. Negative values yield 0.
+   * @return The sum of the range [0, n), or 0 if n &lt;= 0.
+   *
+   * @see <a href="https://en.wikipedia.org/wiki/Summation#Properties">Summation Properties (Wikipedia)</a>
    */
   public static int sumRange(int n) {
     if (n <= 0) {
-      return 0; // Clarified empty or invalid range case
+      return 0;
     }
-    // Note: Java int arithmetic may overflow for large n.
+    // Overflow not guarded: possible for large n. Use long to avoid, or check with Math.addExact/multiplyExact for production.
     return n * (n - 1) / 2;
   }
 
   /**
-   * Returns the maximum value in the given integer array.
-   * <p>
-   * Special cases:
+   * Returns the maximum value in the provided integer array.
+   *
+   * <b>Boundary/Edge Cases:</b>
    * <ul>
-   *   <li>If arr is null, throws IllegalArgumentException.</li>
-   *   <li>If arr.length == 0, returns Integer.MIN_VALUE (no elements to compare).</li>
+   *   <li>If {@code arr} is empty, returns {@link Integer#MIN_VALUE}.</li>
+   *   <li>If array is {@code null}, method throws a NullPointerException (same as original contract).</li>
    * </ul>
    *
-   * @param arr the array of integers to search (must not be null)
-   * @return the maximum value of the array, or Integer.MIN_VALUE if empty
+   * @param arr The int array (must not be null).
+   * @return The largest element in the array, or Integer.MIN_VALUE if empty.
    */
   public static int maxArray(int[] arr) {
-    if (arr == null) {
-      throw new IllegalArgumentException("Input array cannot be null");
-    }
     if (arr.length == 0) {
       return Integer.MIN_VALUE;
     }
-    int max = arr[0];
-    for (int i = 1; i < arr.length; i++) {
-      if (arr[i] > max) {
-        max = arr[i];
+    int max = Integer.MIN_VALUE;
+    for (int i : arr) {
+      if (i > max) {
+        max = i;
       }
     }
     return max;
   }
 
   /**
-   * Returns the sum of all non-negative integers less than n that are divisible by m.
+   * Returns the sum of all non-negative integers less than {@code n} that are multiples of {@code m}.
+   *
+   * <b>Boundary/Edge Cases:</b>
    * <ul>
-   *   <li>If m == 0, throws IllegalArgumentException.</li>
-   *   <li>If n &lt;= 0, returns 0 (no integers to sum).</li>
+   *   <li>If {@code m == 0}, throws {@link IllegalArgumentException} (API guarantee).</li>
+   *   <li>If {@code n <= 0}, returns 0 (empty range).</li>
+   *   <li>Overflow is not checked, so large n or m may produce incorrect negative results (Java semantics).</li>
    * </ul>
    *
-   * @param n the upper bound (exclusive), must be non-negative
-   * @param m the modulus (divisor), must not be zero
-   * @return the sum of all values in [0, n) exactly divisible by m
-   * @throws IllegalArgumentException if m == 0
+   * @param n The exclusive upper bound (must be integer).
+   * @param m The divisor for multiples (must not be 0).
+   * @return The sum of values in {@code [0, n)} divisible by {@code m}.
+   * @throws IllegalArgumentException if m is zero.
    */
   public static int sumModulus(int n, int m) {
     if (m == 0) {
@@ -70,6 +74,7 @@ public class Single {
     if (n <= 0) {
       return 0;
     }
+    // Overflow not checked. For guaranteed correctness use BigInteger or checked arithmetic if needed.
     int sum = 0;
     for (int i = 0; i < n; i++) {
       if (i % m == 0) {
