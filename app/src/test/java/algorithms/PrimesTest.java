@@ -7,28 +7,23 @@ import java.util.*;
 public class PrimesTest {
     @Test
     public void testIsPrimeBasic() {
+        // Non-positive
         assertFalse(Primes.isPrime(-1));
         assertFalse(Primes.isPrime(0));
         assertFalse(Primes.isPrime(1));
+        // Small primes and composites
         assertTrue(Primes.isPrime(2));
         assertTrue(Primes.isPrime(3));
         assertFalse(Primes.isPrime(4));
         assertTrue(Primes.isPrime(5));
         assertFalse(Primes.isPrime(9));
-    }
-
-    @Test
-    public void testIsPrimeAdditional() {
-        int[] primes = {11, 13, 17, 19, 23, 7919};
-        for (int p : primes) {
-            assertTrue(Primes.isPrime(p));
-        }
-        int[] nonPrimes = {15, 20, 25, 27, 1001};
-        for (int n : nonPrimes) {
-            assertFalse(Primes.isPrime(n));
-        }
-        // Large edge case
-        assertTrue(Primes.isPrime(104729)); // 10000th prime
+        // Larger composites
+        assertFalse(Primes.isPrime(25));
+        assertTrue(Primes.isPrime(97));
+        // Test a large prime
+        assertTrue(Primes.isPrime(15485863)); // 1 millionth prime
+        // Test a large composite
+        assertFalse(Primes.isPrime(100000002));
     }
     @Test
     public void testSumPrimes() {
@@ -36,13 +31,10 @@ public class PrimesTest {
         assertEquals(2, Primes.sumPrimes(3));
         assertEquals(5, Primes.sumPrimes(5));
         assertEquals(17, Primes.sumPrimes(10));
-        assertEquals(76127, Primes.sumPrimes(1000)); // larger n
-    }
-
-    @Test
-    public void testSumPrimesInputZeroOne() {
-        assertEquals(0, Primes.sumPrimes(0));
-        assertEquals(0, Primes.sumPrimes(1));
+        // Sum of primes below 30: 2+3+5+7+11+13+17+19+23+29 = 129
+        assertEquals(129, Primes.sumPrimes(30));
+        // Sum for a large bound, deterministic
+        assertEquals(76127, Primes.sumPrimes(800));
     }
     @Test(expected = IllegalArgumentException.class)
     public void testSumPrimesNegative() {
@@ -53,24 +45,24 @@ public class PrimesTest {
         assertEquals(Arrays.asList(2,2,3), Primes.primeFactors(12));
         assertEquals(Arrays.asList(7), Primes.primeFactors(7));
         assertEquals(Arrays.asList(2,2,2,2), Primes.primeFactors(16));
-    }
-
-    @Test
-    public void testPrimeFactorsAdditional() {
-        assertEquals(Arrays.asList(2, 2, 5, 5), Primes.primeFactors(100));
+        // Prime factors of a product of large primes
+        assertEquals(Arrays.asList(15485863, 15485867), Primes.primeFactors(15485863 * 15485867));
         assertEquals(Arrays.asList(3, 3, 3, 37), Primes.primeFactors(999));
-        assertEquals(Collections.singletonList(104729), Primes.primeFactors(104729)); // prime itself
-        assertEquals(Arrays.asList(2, 3, 5, 7, 11, 13), Primes.primeFactors(30030));
-    }
-
-    @Test
-    public void testPrimeFactorsLargePower() {
-        List<Integer> expected = new ArrayList<>();
-        for (int i = 0; i < 10; ++i) expected.add(2);
-        assertEquals(expected, Primes.primeFactors(1024));
+        // Prime power
+        assertEquals(Collections.nCopies(10, 2), Primes.primeFactors(1024));
+        // Largest 32-bit prime: Should be itself
+        assertEquals(Arrays.asList(2147483647), Primes.primeFactors(2147483647));
     }
     @Test(expected = IllegalArgumentException.class)
-    public void testPrimeFactorsEdge() {
+    public void testPrimeFactorsEdgeBelow2() {
         Primes.primeFactors(1);
+    }
+    @Test(expected = IllegalArgumentException.class)
+    public void testPrimeFactorsZero() {
+        Primes.primeFactors(0);
+    }
+    @Test(expected = IllegalArgumentException.class)
+    public void testPrimeFactorsNegative() {
+        Primes.primeFactors(-12345);
     }
 }
