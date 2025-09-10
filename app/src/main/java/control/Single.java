@@ -28,6 +28,20 @@ public class Single {
   }
 
   /**
+   * Returns the sum of the first n natural numbers, using long to prevent integer overflow.
+   * If n <= 0 then 0L is returned.
+   * @param n Length of the range; must be non-negative.
+   * @return long sum of the range [0, n), or 0 if n <= 0.
+   */
+  public static long sumRangeLong(int n) {
+    if (n <= 0) {
+      return 0L;
+    }
+    // Use long for intermediate result to avoid int overflow
+    return ((long) n * (n - 1)) / 2;
+  }
+
+  /**
    * Returns the maximum value in the provided integer array.
    *
    * <b>Boundary/Edge Cases:</b>
@@ -39,7 +53,23 @@ public class Single {
    * @param arr The int array (must not be null).
    * @return The largest element in the array, or Integer.MIN_VALUE if empty.
    */
+  /**
+   * Returns the maximum value in the provided integer array.
+   *
+   * <b>Boundary/Edge Cases:</b>
+   * <ul>
+   *   <li>If {@code arr} is empty, returns {@link Integer#MIN_VALUE}.</li>
+   *   <li>If {@code arr} is {@code null}, throws an {@link IllegalArgumentException} with descriptive message.</li>
+   * </ul>
+   *
+   * @param arr The int array (must not be null).
+   * @return The largest element in the array, or Integer.MIN_VALUE if empty.
+   * @throws IllegalArgumentException if arr is null.
+   */
   public static int maxArray(int[] arr) {
+    if (arr == null) {
+      throw new IllegalArgumentException("Input array must not be null");
+    }
     if (arr.length == 0) {
       return Integer.MIN_VALUE;
     }
@@ -82,5 +112,42 @@ public class Single {
       }
     }
     return sum;
+  }
+
+  /**
+   * Returns the sum of all non-negative integers less than {@code n} that are multiples of {@code m}.
+   * Uses long accumulator to avoid integer overflow and allow n up to Integer.MAX_VALUE.
+   * @param n The exclusive upper bound (must be >= 0)
+   * @param m The divisor for multiples (must not be 0)
+   * @return The sum as a long value
+   * @throws IllegalArgumentException if m is zero.
+   */
+  public static long sumModulusLong(int n, int m) {
+    if (m == 0) {
+      throw new IllegalArgumentException("Modulus 'm' cannot be zero.");
+    }
+    if (n <= 0) {
+      return 0L;
+    }
+    long sum = 0L;
+    for (int i = 0; i < n; i++) {
+      if (i % m == 0) {
+        sum += i;
+      }
+    }
+    return sum;
+  }
+
+  /**
+   * Returns the maximum value in the provided integer array using Java Streams API.
+   * @param arr The int array, must not be null.
+   * @return The largest element, or Integer.MIN_VALUE if array is empty.
+   * @throws IllegalArgumentException if arr is null.
+   */
+  public static int maxArrayStream(int[] arr) {
+    if (arr == null) {
+      throw new IllegalArgumentException("Input array must not be null");
+    }
+    return java.util.Arrays.stream(arr).reduce(Integer.MIN_VALUE, Integer::max);
   }
 }
