@@ -8,9 +8,7 @@ import java.util.List;
 public class Primes {
   /**
    * Checks if a number is prime.
-   * Skips even numbers and those divisible by 3 after basic checks, for improved performance.
    * <p>
-   * Time complexity: O(√n/6), as we check fewer numbers.
    * Example usage:
    * <pre>
    *   boolean is5Prime = Primes.isPrime(5); // returns true
@@ -18,13 +16,17 @@ public class Primes {
    * @param n the number to check
    * @return {@code true} if {@code n} is prime, {@code false} otherwise
    */
+  /**
+   * Uses the 6k±1 optimization for improved performance.
+   */
   public static boolean isPrime(int n) {
     if (n < 2) return false;
     if (n == 2 || n == 3) return true;
     if (n % 2 == 0 || n % 3 == 0) return false;
-    for (int i = 5; i <= Math.sqrt(n); i += 6) {
-      if (n % i == 0 || n % (i + 2) == 0)
+    for (int i = 5; i * i <= n; i += 6) {
+      if (n % i == 0 || n % (i + 2) == 0) {
         return false;
+      }
     }
     return true;
   }
@@ -32,7 +34,6 @@ public class Primes {
   /**
    * Sums all prime numbers up to a given non-negative limit (exclusive).
    * <p>
-   * Time complexity: O(n sqrt n).
    * Example usage:
    * <pre>
    *   int sum = Primes.sumPrimes(10); // returns 17
@@ -41,11 +42,25 @@ public class Primes {
    * @return the sum of all prime numbers less than {@code n}
    * @throws IllegalArgumentException if {@code n < 0}
    */
+  /**
+   * Uses Sieve of Eratosthenes for better efficiency.
+   */
   public static int sumPrimes(int n) {
     if (n < 0) throw new IllegalArgumentException("n must be non-negative");
+    if (n <= 2) return 0;
+    boolean[] isPrime = new boolean[n];
+    Arrays.fill(isPrime, true);
+    isPrime[0] = isPrime[1] = false;
+    for (int i = 2; i * i < n; i++) {
+      if (isPrime[i]) {
+        for (int j = i * i; j < n; j += i) {
+          isPrime[j] = false;
+        }
+      }
+    }
     int sum = 0;
     for (int i = 2; i < n; i++) {
-      if (isPrime(i)) {
+      if (isPrime[i]) {
         sum += i;
       }
     }
@@ -63,45 +78,37 @@ public class Primes {
    * @return a List of all prime factors of {@code n} (in ascending order)
    * @throws IllegalArgumentException if {@code n < 2}
    */
+  /**
+   * Uses optimized trial division.
+   * Factors out 2 and 3 first. Then uses increments of 6.
+   */
   public static List<Integer> primeFactors(int n) {
-    if (n < 2) throw new IllegalArgumentException("n must be greater than 1");
+    if (n < 2)
+      throw new IllegalArgumentException("n must be greater than 1");
     List<Integer> ret = new ArrayList<>();
-    for (int i = 2; i <= n / i; i++) {
+    // factor out all 2s
+    while (n % 2 == 0) {
+      ret.add(2);
+      n /= 2;
+    }
+    // factor out all 3s
+    while (n % 3 == 0) {
+      ret.add(3);
+      n /= 3;
+    }
+    for (int i = 5; i * i <= n; i += 6) {
       while (n % i == 0) {
         ret.add(i);
         n /= i;
+      }
+      while (n % (i + 2) == 0) {
+        ret.add(i + 2);
+        n /= (i + 2);
       }
     }
     if (n > 1) {
       ret.add(n);
     }
     return ret;
-  }
-
-  /**
-   * Finds all primes up to n using the Sieve of Eratosthenes.
-   * <p>
-   * Time complexity: O(n log log n). Returns all primes in [2, n).
-   * Example usage:
-   * <pre>
-   *   List<Integer> primes = Primes.sieveOfEratosthenes(10); // [2, 3, 5, 7]
-   * </pre>
-   * @param n the exclusive upper bound (>1)
-   * @return list of all primes less than n
-   * @throws IllegalArgumentException if {@code n < 2}
-   */
-  public static List<Integer> sieveOfEratosthenes(int n) {
-    if (n < 2) throw new IllegalArgumentException("n must be at least 2");
-    boolean[] isComposite = new boolean[n];
-    List<Integer> primes = new ArrayList<>();
-    for (int i = 2; i < n; i++) {
-      if (!isComposite[i]) {
-        primes.add(i);
-        for (int j = i * 2; j < n; j += i) {
-          isComposite[j] = true;
-        }
-      }
-    }
-    return primes;
   }
 }
