@@ -21,10 +21,10 @@ public class Primes {
   }
 
   /**
-   * Sums all prime numbers from 0 to n
+   * Sums all prime numbers less than n.
    *
-   * @param n The number of prime numbers to sum.
-   * @return The sum of the first n prime numbers.
+   * @param n The upper limit (exclusive) for summing prime numbers.
+   * @return The sum of all prime numbers less than n.
    */
   public static int SumPrimes(int n) {
     int sum = 0;
@@ -46,12 +46,14 @@ public class Primes {
     Vector<Integer> ret = new Vector<Integer>();
 
     for (int i = 2; i * i <= n; i++) { // Optimized loop condition
-      while (n % i == 0 && IsPrime(i)) { // Optimized to handle repeated factors
+      // A factor 'i' found at this point is guaranteed to be prime
+      // because any composite factors smaller than 'i' would have already divided 'n'.
+      while (n % i == 0) { // Removed redundant IsPrime(i) check for performance
         ret.add(i);
         n /= i; // Reduce n to avoid redundant checks.
       }
     }
-    if (n > 1) { // Add any remaining prime factor.
+    if (n > 1) { // Add any remaining prime factor. This covers the case where n itself is a prime greater than 1.
         ret.add(n);
     }
     return ret;
