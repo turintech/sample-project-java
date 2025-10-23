@@ -21,7 +21,7 @@ public class App {
         System.out.println();
     }
 
-    public static void double_() {
+    public static void doubleOperations() {
         System.out.println("DoubleForLoop");
         System.out.println("-------------");
         System.out.println(
@@ -86,8 +86,8 @@ public class App {
                 "SortVector(%s): %s", initialVec.toString(), inputVec0.toString()));
         Vector<Integer> inputVec1 = new Vector<Integer>(initialVec);
         Sort.DutchFlagPartition(inputVec1, 5);
-        System.out.println(String.format("DutchFlagPartition(%s, 5): %s",
-                inputVec1.toString(),
+        System.out.println(String.format("DutchFlagPartition(Original: %s, 5): %s",
+                initialVec.toString(),
                 inputVec1.toString()));
         System.out.println(String.format("MaxN(%s, 5): %s", initialVec.toString(),
                 Sort.MaxN(initialVec, 5).toString()));
@@ -96,7 +96,7 @@ public class App {
 
     public static void main(String[] args) {
         single();
-        double_();
+        doubleOperations();
         vector();
         primes();
         sort();
