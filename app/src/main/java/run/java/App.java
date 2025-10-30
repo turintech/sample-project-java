@@ -68,11 +68,11 @@ public class App {
     public static void primes() {
         System.out.println("Primes");
         System.out.println("------");
-        System.out.println(String.format("IsPrime(10): %s", Primes.IsPrime(10)));
+        System.out.println(String.format("isPrime(10): %s", Primes.isPrime(10)));
         System.out.println(
-                String.format("SumPrimes(10): %s", Primes.SumPrimes(10)));
-        System.out.println(String.format("PrimeFactors(10): %s",
-                Primes.PrimeFactors(10).toString()));
+                String.format("sumPrimes(10): %s", Primes.sumPrimes(10)));
+        System.out.println(String.format("primeFactors(10): %s",
+                Primes.primeFactors(10).toString()));
         System.out.println();
     }
 
