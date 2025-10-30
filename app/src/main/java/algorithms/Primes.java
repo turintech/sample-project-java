@@ -1,10 +1,12 @@
 package algorithms;
-import java.util.Vector;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Primes {
   /**
-   * Checks if a number is prime
-   * test comment
+   * Checks if a number is prime.
+   *
    * @param n The number to check.
    * @return True if the number is prime, false otherwise.
    */
@@ -12,7 +14,7 @@ public class Primes {
     if (n < 2) {
       return false;
     }
-    for (int i = 2; i * i <= n; i++) { // Optimized loop condition
+    for (int i = 2; i * i <= n; i++) {
       if (n % i == 0) {
         return false;
       }
@@ -21,39 +23,63 @@ public class Primes {
   }
 
   /**
-   * Sums all prime numbers from 0 to n
+   * Sums all prime numbers strictly less than n using the Sieve of Eratosthenes.
    *
-   * @param n The number of prime numbers to sum.
-   * @return The sum of the first n prime numbers.
+   * @param n The upper limit (exclusive) for prime numbers to sum.
+   * @return The sum of all prime numbers less than n.
    */
-  public static int SumPrimes(int n) {
-    int sum = 0;
-    for (int i = 0; i < n; i++) {
-      if (IsPrime(i)) {
-        sum = sum + i;
+  public static long SumPrimes(int n) {
+    if (n <= 2) {
+      return 0;
+    }
+    boolean[] isPrime = new boolean[n];
+    for (int i = 2; i < n; i++) {
+      isPrime[i] = true;
+    }
+    for (int p = 2; p * p < n; p++) {
+      if (isPrime[p]) {
+        for (int i = p * p; i < n; i += p) {
+          isPrime[i] = false;
+        }
+      }
+    }
+    long sum = 0;
+    for (int i = 2; i < n; i++) {
+      if (isPrime[i]) {
+        sum += i;
       }
     }
     return sum;
   }
 
   /**
-   * Finds all primes factors of a number
+   * Finds all prime factors of a number.
    *
    * @param n The number to find the prime factors of.
-   * @return An vector of all prime factors of n.
+   * @return A List of all prime factors of n.
    */
-  public static Vector<Integer> PrimeFactors(int n) {
-    Vector<Integer> ret = new Vector<Integer>();
+  public static List<Integer> PrimeFactors(int n) {
+    List<Integer> ret = new ArrayList<>();
 
-    for (int i = 2; i * i <= n; i++) { // Optimized loop condition
-      while (n % i == 0 && IsPrime(i)) { // Optimized to handle repeated factors
+    // Handle factor 2
+    while (n % 2 == 0) {
+      ret.add(2);
+      n /= 2;
+    }
+
+    // Handle odd factors
+    for (int i = 3; i * i <= n; i += 2) {
+      while (n % i == 0) {
         ret.add(i);
-        n /= i; // Reduce n to avoid redundant checks.
+        n /= i;
       }
     }
-    if (n > 1) { // Add any remaining prime factor.
-        ret.add(n);
+    
+    // This condition handles the case where n is a prime number greater than 2.
+    if (n > 1) {
+      ret.add(n);
     }
+    
     return ret;
   }
 }
