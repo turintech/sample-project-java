@@ -11,10 +11,19 @@ public final class Single {
    * <p>
    * This method computes: 0 + 1 + 2 + ... + (n-1) using the formula n*(n-1)/2
    * </p>
+   * <p>
+   * Examples:
+   * <ul>
+   *   <li>{@code sumRange(0)} returns {@code 0}</li>
+   *   <li>{@code sumRange(1)} returns {@code 0}</li>
+   *   <li>{@code sumRange(4)} returns {@code 6} (0+1+2+3)</li>
+   *   <li>{@code sumRange(10)} returns {@code 45} (0+1+2+...+9)</li>
+   * </ul>
+   * </p>
    *
    * @param n The upper limit (exclusive) of numbers to sum. Must be non-negative.
    * @return The sum of integers from 0 to n-1, or 0 if n &lt;= 0.
-   *         Returns {@code Integer.MAX_VALUE} if the result would overflow.
+   * @throws ArithmeticException if the result would overflow the int type.
    */
   public static int sumRange(int n) {
     if (n <= 0) {
@@ -24,9 +33,9 @@ public final class Single {
     // Use long to prevent overflow during calculation
     long result = (long) n * (n - 1) / 2;
     
-    // Cap at Integer.MAX_VALUE if overflow would occur
+    // Check for overflow
     if (result > Integer.MAX_VALUE) {
-      return Integer.MAX_VALUE;
+      throw new ArithmeticException("Sum overflow: result exceeds Integer.MAX_VALUE");
     }
     
     return (int) result;
@@ -35,7 +44,16 @@ public final class Single {
   /**
    * Finds the maximum value in an array of integers.
    * <p>
-   * Iterates through the array to find the largest integer value.
+   * Iterates through the array to find the largest integer value. Works correctly
+   * with negative numbers and duplicate values.
+   * </p>
+   * <p>
+   * Examples:
+   * <ul>
+   *   <li>{@code maxArray(new int[]{1, 2, 3})} returns {@code 3}</li>
+   *   <li>{@code maxArray(new int[]{-5, -2, -10})} returns {@code -2}</li>
+   *   <li>{@code maxArray(new int[]{5})} returns {@code 5}</li>
+   * </ul>
    * </p>
    *
    * @param arr The array of integers to search. Cannot be null or empty.
@@ -60,38 +78,44 @@ public final class Single {
   /**
    * Calculates the sum of all non-negative multiples of m that are less than n.
    * <p>
-   * Uses an O(1) arithmetic series formula for efficiency.
-   * For example, sumModulus(10, 3) returns 0 + 3 + 6 + 9 = 18.
+   * Uses an O(1) arithmetic series formula for efficiency instead of iterating through all values.
+   * </p>
+   * <p>
+   * Examples:
+   * <ul>
+   *   <li>{@code sumModulus(10, 3)} returns {@code 18} (0+3+6+9)</li>
+   *   <li>{@code sumModulus(10, 2)} returns {@code 20} (0+2+4+6+8)</li>
+   *   <li>{@code sumModulus(5, 10)} returns {@code 0} (no multiples of 10 less than 5)</li>
+   *   <li>{@code sumModulus(0, 3)} returns {@code 0} (no positive n)</li>
+   * </ul>
    * </p>
    *
    * @param n The upper bound (exclusive) for the multiples. Must be positive to get non-zero result.
-   * @param m The modulus (the number whose multiples are summed). Cannot be zero.
+   * @param m The modulus (the number whose multiples are summed). Must be positive.
    * @return The sum of the multiples (0, m, 2m, ..., km where km &lt; n), 
-   *         or 0 if n &lt;= 0. Returns {@code Integer.MAX_VALUE} if overflow would occur.
-   * @throws IllegalArgumentException if m is 0.
+   *         or 0 if n &lt;= 0.
+   * @throws IllegalArgumentException if m is zero or negative.
+   * @throws ArithmeticException if the result would overflow the int type.
    */
   public static int sumModulus(int n, int m) {
-    if (m == 0) {
-      throw new IllegalArgumentException("Modulus 'm' cannot be zero.");
+    if (m <= 0) {
+      throw new IllegalArgumentException("Modulus 'm' must be positive.");
     }
     
     if (n <= 0) {
       return 0;
     }
-
-    // Use absolute value to handle negative modulus
-    int absM = Math.abs(m);
     
-    // Find the largest k such that absM * k < n
-    int k = (n - 1) / absM;
+    // Find the largest k such that m * k < n
+    int k = (n - 1) / m;
 
-    // Calculate sum using arithmetic series formula: absM * k * (k + 1) / 2
-    // This computes: absM * (0 + 1 + 2 + ... + k) = absM * k * (k + 1) / 2
-    long sum = (long) absM * k * (k + 1) / 2;
+    // Calculate sum using arithmetic series formula: m * k * (k + 1) / 2
+    // This computes: m * (0 + 1 + 2 + ... + k) = m * k * (k + 1) / 2
+    long sum = (long) m * k * (k + 1) / 2;
 
-    // Cap at Integer.MAX_VALUE if overflow would occur
+    // Check for overflow
     if (sum > Integer.MAX_VALUE) {
-      return Integer.MAX_VALUE;
+      throw new ArithmeticException("Sum overflow: result exceeds Integer.MAX_VALUE");
     }
 
     return (int) sum;
