@@ -68,11 +68,31 @@ public class App {
     public static void primes() {
         System.out.println("Primes");
         System.out.println("------");
-        System.out.println(String.format("isPrime(10): %s", Primes.isPrime(10)));
-        System.out.println(
-                String.format("sumPrimes(10): %s", Primes.sumPrimes(10)));
-        System.out.println(String.format("primeFactors(10): %s",
+        
+        // Test isPrime with various cases
+        System.out.println(String.format("isPrime(2): %s (smallest prime)", 
+                Primes.isPrime(2)));
+        System.out.println(String.format("isPrime(10): %s (composite)", 
+                Primes.isPrime(10)));
+        System.out.println(String.format("isPrime(17): %s (prime)", 
+                Primes.isPrime(17)));
+        System.out.println(String.format("isPrime(1): %s (not prime)", 
+                Primes.isPrime(1)));
+        
+        // Test sumPrimes with meaningful values
+        System.out.println(String.format("sumPrimes(10): %s (2+3+5+7)", 
+                Primes.sumPrimes(10)));
+        System.out.println(String.format("sumPrimes(100): %s", 
+                Primes.sumPrimes(100)));
+        
+        // Test primeFactors with various numbers
+        System.out.println(String.format("primeFactors(10): %s (2×5)",
                 Primes.primeFactors(10).toString()));
+        System.out.println(String.format("primeFactors(12): %s (2²×3)",
+                Primes.primeFactors(12).toString()));
+        System.out.println(String.format("primeFactors(17): %s (prime)",
+                Primes.primeFactors(17).toString()));
+        
         System.out.println();
     }
 
