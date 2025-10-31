@@ -8,15 +8,12 @@ public class Double {
    * @return The sum of the first n natural numbers squared.
    */
   public static int sumSquare(int n) {
-    int sum = 0;
-    for (int i = 0; i < n; i++) {
-      for (int j = 0; j < n; j++) {
-        if (i == j) {
-          sum = sum + i * j;
-        }
-      }
+    // Optimized: Use mathematical formula instead of nested loops
+    // Sum of i² from 0 to n-1 = (n-1) * n * (2n-1) / 6
+    if (n <= 0) {
+      return 0;
     }
-    return sum;
+    return (n - 1) * n * (2 * n - 1) / 6;
   }
 
   /**
@@ -26,13 +23,15 @@ public class Double {
    * @return The sum of the first n triangular numbers.
    */
   public static int sumTriangle(int n) {
-    int sum = 0;
-    for (int i = 0; i < n + 1; i++) {
-      for (int j = 0; j < i; j++) {
-        sum = sum + j;
-      }
+    // Optimized: Use mathematical formula instead of nested loops
+    // T(k) = k*(k-1)/2
+    // Sum of T(0) to T(n) = Sum of k*(k-1)/2 from k=0 to n
+    // = (1/2) * [Sum(k²) - Sum(k)] from k=0 to n
+    // = (1/2) * [n*(n+1)*(2n+1)/6 - n*(n+1)/2]
+    if (n < 0) {
+      return 0;
     }
-    return sum;
+    return n * (n - 1) * (n + 1) / 6;
   }
 
   /**
@@ -68,12 +67,12 @@ public class Double {
    *         equal.
    */
   public static int countDuplicates(int[] arr0, int[] arr1) {
+    // Optimized: Remove unnecessary nested loop since we only check when i == j
     int count = 0;
-    for (int i = 0; i < arr0.length; i++) {
-      for (int j = 0; j < arr1.length; j++) {
-        if (i == j && arr0[i] == arr1[j]) {
-          count++;
-        }
+    int minLength = Math.min(arr0.length, arr1.length);
+    for (int i = 0; i < minLength; i++) {
+      if (arr0[i] == arr1[i]) {
+        count++;
       }
     }
     return count;

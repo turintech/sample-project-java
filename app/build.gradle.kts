@@ -34,7 +34,9 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass.set("run.java.App")
+    // Can be overridden with -PmainClass=<class.name>
+    val mainClassProperty = project.findProperty("mainClass") as String?
+    mainClass.set(mainClassProperty ?: "run.java.App")
 }
 
 tasks.named<Test>("test") {
