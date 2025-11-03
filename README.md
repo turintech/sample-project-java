@@ -23,4 +23,10 @@ Run Unit Tests:
 
 Run Benchmarking:
 
-(will be added later)
+To run benchmarking, use the following command:
+
+```shell
+./gradlew benchmark
+```
+
+Make sure to review the benchmarks for performance insights.
