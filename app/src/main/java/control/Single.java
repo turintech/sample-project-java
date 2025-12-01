@@ -1,57 +1,70 @@
 package control;
 
-import java.util.Vector;
-
 public class Single {
   /**
-   * This method is used to calculate the sum of the first n natural numbers.
-   * n exclusive
+   * Calculates the sum of integers from 0 to n-1 using the arithmetic series formula.
+   * Time complexity: O(1), Space complexity: O(1).
    *
-   * @param n The number of natural numbers to sum.
-   * @return The sum of the first n natural numbers.
+   * @param n The upper bound (exclusive). Must be non-negative.
+   * @return The sum of integers from 0 to n-1.
+   * @throws NegativeArraySizeException if n is negative.
    */
   public static int sumRange(int n) {
-    int[] arr = new int[n];
-    int sum = 0;
-    for (int i = 0; i < n; i++) {
-      arr[i] = i;
+    if (n < 0) {
+      throw new NegativeArraySizeException("n must be non-negative.");
     }
-    for (int i : arr) {
-      sum += i;
-    }
-    return sum;
+    return n * (n - 1) / 2;
   }
 
   /**
-   * This method calculates the maximum value in an array of integers.
+   * Finds the maximum value in an array of integers.
+   * Correctly handles arrays with negative numbers.
    *
-   * @param arr The array of integers.
-   * @return The maximum value in the array.
+   * @param arr The array of integers. Cannot be null.
+   * @return The maximum value in the array, or 0 if the array is empty.
+   * @throws IllegalArgumentException if the array is null.
    */
   public static int maxArray(int[] arr) {
-    int max = 0;
-    for (int i : arr) {
-      if (i > max) {
-        max = i;
+    if (arr == null) {
+      throw new IllegalArgumentException("Array cannot be null.");
+    }
+    if (arr.length == 0) {
+      return 0;
+    }
+
+    int max = arr[0];
+    for (int i = 1; i < arr.length; i++) {
+      if (arr[i] > max) {
+        max = arr[i];
       }
     }
     return max;
   }
 
   /**
-   * This method calculates the sum of the first n natural numbers, modulo m.
+   * Calculates the sum of multiples of m in the range [0, n).
+   * Uses arithmetic series formula for O(1) time complexity.
+   * Example: sumModulus(10, 3) = 0 + 3 + 6 + 9 = 18
    *
-   * @param n The number of natural numbers to sum.
-   * @param m The modulus.
+   * @param n The upper bound (exclusive).
+   * @param m The modulus. Must not be zero.
+   * @return The sum of multiples of m that are less than n.
+   * @throws IllegalArgumentException if m is 0.
    */
   public static int sumModulus(int n, int m) {
-    Vector<Integer> multiples = new Vector<Integer>();
-    for (int i = 0; i < n; i++) {
-      if (i % m == 0) {
-        multiples.add(i);
-      }
+    if (m == 0) {
+      throw new IllegalArgumentException("Modulus 'm' cannot be zero.");
+    }
+    if (n <= 0) {
+      return 0;
     }
 
-    return multiples.stream().mapToInt(Integer::valueOf).sum();
+    // Calculate the number of multiples: 0, m, 2m, ..., km where km < n
+    // The largest k is floor((n-1) / m)
+    int absM = Math.abs(m);
+    int k = (n - 1) / absM;
+    
+    // Sum = m * (0 + 1 + 2 + ... + k) = m * k * (k + 1) / 2
+    return absM * k * (k + 1) / 2;
   }
 }
