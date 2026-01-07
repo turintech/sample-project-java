@@ -11,15 +11,8 @@ public class Single {
    * @return The sum of the first n natural numbers.
    */
   public static int sumRange(int n) {
-    int[] arr = new int[n];
-    int sum = 0;
-    for (int i = 0; i < n; i++) {
-      arr[i] = i;
-    }
-    for (int i : arr) {
-      sum += i;
-    }
-    return sum;
+    // Use arithmetic formula: sum of 0 to n-1 = n*(n-1)/2
+    return n * (n - 1) / 2;
   }
 
   /**
@@ -45,13 +38,11 @@ public class Single {
    * @param m The modulus.
    */
   public static int sumModulus(int n, int m) {
-    Vector<Integer> multiples = new Vector<Integer>();
-    for (int i = 0; i < n; i++) {
-      if (i % m == 0) {
-        multiples.add(i);
-      }
+    // Calculate sum directly without storing all multiples
+    int sum = 0;
+    for (int i = 0; i < n; i += m) {
+      sum += i;
     }
-
-    return multiples.stream().mapToInt(Integer::valueOf).sum();
+    return sum;
   }
 }
