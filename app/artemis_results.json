@@ -1,0 +1,10 @@
+[
+  {"operation": "sumRange", "throughput": 48045.80, "latency_p50": 20.76, "latency_p99": 43.81},
+  {"operation": "maxArray", "throughput": 110298.27, "latency_p50": 9.37, "latency_p99": 20.06},
+  {"operation": "sumModulus", "throughput": 16149.84, "latency_p50": 53.25, "latency_p99": 113.05},
+  {"operation": "sumSquare", "throughput": 22981.26, "latency_p50": 43.19, "latency_p99": 57.93},
+  {"operation": "countPairs", "throughput": 7113.93, "latency_p50": 139.42, "latency_p99": 157.65},
+  {"operation": "sortVector", "throughput": 34.73, "latency_p50": 28708.99, "latency_p99": 30506.08},
+  {"operation": "dutchFlagPartition", "throughput": 6587.37, "latency_p50": 150.57, "latency_p99": 168.79},
+  {"operation": "searchVector", "throughput": 7100.21, "latency_p50": 140.57, "latency_p99": 144.64}
+]

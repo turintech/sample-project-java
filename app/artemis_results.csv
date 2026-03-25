@@ -1,0 +1,9 @@
+operation,throughput,latency_p50,latency_p99
+sumRange,48045.80,20.76,43.81
+maxArray,110298.27,9.37,20.06
+sumModulus,16149.84,53.25,113.05
+sumSquare,22981.26,43.19,57.93
+countPairs,7113.93,139.42,157.65
+sortVector,34.73,28708.99,30506.08
+dutchFlagPartition,6587.37,150.57,168.79
+searchVector,7100.21,140.57,144.64

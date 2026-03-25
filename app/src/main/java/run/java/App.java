@@ -6,6 +6,7 @@ import control.Double;
 import control.Single;
 import datastructures.DsVector;
 import generator.GenVector;
+import java.io.IOException;
 import java.util.Vector;
 
 public class App {
@@ -94,11 +95,14 @@ public class App {
         System.out.println();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         single();
         double_();
         vector();
         primes();
         sort();
+
+        System.out.println("Running benchmarks...");
+        benchmark.Benchmark.run();
     }
 }
