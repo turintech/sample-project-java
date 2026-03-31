@@ -96,9 +96,9 @@ public class Benchmark {
     private static void writeResults(List<Result> results) throws IOException {
         // Write CSV
         try (PrintWriter csv = new PrintWriter(new FileWriter("artemis_results.csv"))) {
-            csv.println("operation,throughput,latency_p50,latency_p99");
+            csv.println("throughput,latency_p50,latency_p99");
             for (Result r : results) {
-                csv.printf("%s,%.2f,%.2f,%.2f%n", r.operation, r.throughput, r.latencyP50, r.latencyP99);
+                csv.printf("%.2f,%.2f,%.2f%n", r.throughput, r.latencyP50, r.latencyP99);
             }
         }
 
@@ -107,8 +107,8 @@ public class Benchmark {
             json.println("[");
             for (int i = 0; i < results.size(); i++) {
                 Result r = results.get(i);
-                json.printf("  {\"operation\": \"%s\", \"throughput\": %.2f, \"latency_p50\": %.2f, \"latency_p99\": %.2f}",
-                        r.operation, r.throughput, r.latencyP50, r.latencyP99);
+                json.printf("  {\"throughput\": %.2f, \"latency_p50\": %.2f, \"latency_p99\": %.2f}",
+                        r.throughput, r.latencyP50, r.latencyP99);
                 if (i < results.size() - 1) json.println(",");
                 else json.println();
             }
@@ -120,9 +120,9 @@ public class Benchmark {
 
         // Log CSV contents
         System.out.println("=== artemis_results.csv ===");
-        System.out.println("operation,throughput,latency_p50,latency_p99");
+        System.out.println("throughput,latency_p50,latency_p99");
         for (Result r : results) {
-            System.out.printf("%s,%.2f,%.2f,%.2f%n", r.operation, r.throughput, r.latencyP50, r.latencyP99);
+            System.out.printf("%.2f,%.2f,%.2f%n", r.throughput, r.latencyP50, r.latencyP99);
         }
         System.out.println();
 
@@ -131,8 +131,8 @@ public class Benchmark {
         System.out.println("[");
         for (int i = 0; i < results.size(); i++) {
             Result r = results.get(i);
-            System.out.printf("  {\"operation\": \"%s\", \"throughput\": %.2f, \"latency_p50\": %.2f, \"latency_p99\": %.2f}",
-                    r.operation, r.throughput, r.latencyP50, r.latencyP99);
+            System.out.printf("  {\"throughput\": %.2f, \"latency_p50\": %.2f, \"latency_p99\": %.2f}",
+                    r.throughput, r.latencyP50, r.latencyP99);
             if (i < results.size() - 1) System.out.println(",");
             else System.out.println();
         }
