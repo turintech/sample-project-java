@@ -65,6 +65,10 @@ public class Benchmark {
     }
 
     public static void run() throws IOException {
+        run("csv");
+    }
+
+    public static void run(String format) throws IOException {
         List<Result> results = new ArrayList<>();
 
         int[] largeArr = new int[10_000];
@@ -90,52 +94,65 @@ public class Benchmark {
         }));
         results.add(record("searchVector", () -> DsVector.searchVector(searchVec, 500)));
 
-        writeResults(results);
+        writeResults(results, format);
     }
 
-    private static void writeResults(List<Result> results) throws IOException {
-        // Write CSV
-        try (PrintWriter csv = new PrintWriter(new FileWriter("artemis_results.csv"))) {
-            csv.println("throughput,latency_p50,latency_p99");
-            for (Result r : results) {
-                csv.printf("%.2f,%.2f,%.2f%n", r.throughput, r.latencyP50, r.latencyP99);
-            }
-        }
-
-        // Write JSON
-        try (PrintWriter json = new PrintWriter(new FileWriter("artemis_results.json"))) {
-            json.println("[");
-            for (int i = 0; i < results.size(); i++) {
-                Result r = results.get(i);
-                json.printf("  {\"throughput\": %.2f, \"latency_p50\": %.2f, \"latency_p99\": %.2f}",
-                        r.throughput, r.latencyP50, r.latencyP99);
-                if (i < results.size() - 1) json.println(",");
-                else json.println();
-            }
-            json.println("]");
-        }
-
-        System.out.println("Artemis results written to artemis_results.csv and artemis_results.json");
-        System.out.println();
-
-        // Log CSV contents
-        System.out.println("=== artemis_results.csv ===");
-        System.out.println("throughput,latency_p50,latency_p99");
-        for (Result r : results) {
-            System.out.printf("%.2f,%.2f,%.2f%n", r.throughput, r.latencyP50, r.latencyP99);
-        }
-        System.out.println();
-
-        // Log JSON contents
-        System.out.println("=== artemis_results.json ===");
-        System.out.println("[");
+    private static void writeResults(List<Result> results, String format) throws IOException {
+        // Build header and values: one row per execution, columns = operation_metric
+        StringBuilder header = new StringBuilder();
+        StringBuilder values = new StringBuilder();
         for (int i = 0; i < results.size(); i++) {
             Result r = results.get(i);
-            System.out.printf("  {\"throughput\": %.2f, \"latency_p50\": %.2f, \"latency_p99\": %.2f}",
-                    r.throughput, r.latencyP50, r.latencyP99);
-            if (i < results.size() - 1) System.out.println(",");
-            else System.out.println();
+            if (i > 0) {
+                header.append(",");
+                values.append(",");
+            }
+            header.append(r.operation).append("_throughput,");
+            header.append(r.operation).append("_latency_p50,");
+            header.append(r.operation).append("_latency_p99");
+            values.append(String.format("%.2f,%.2f,%.2f", r.throughput, r.latencyP50, r.latencyP99));
         }
-        System.out.println("]");
+
+        String filename = "artemis_results." + format;
+
+        if ("json".equals(format)) {
+            try (PrintWriter json = new PrintWriter(new FileWriter(filename))) {
+                json.println("[");
+                json.print("  {");
+                for (int i = 0; i < results.size(); i++) {
+                    Result r = results.get(i);
+                    if (i > 0) json.print(", ");
+                    json.printf("\"%s_throughput\": %.2f, \"%s_latency_p50\": %.2f, \"%s_latency_p99\": %.2f",
+                            r.operation, r.throughput, r.operation, r.latencyP50, r.operation, r.latencyP99);
+                }
+                json.println("}");
+                json.println("]");
+            }
+
+            System.out.println("Artemis results written to " + filename);
+            System.out.println();
+            System.out.println("=== " + filename + " ===");
+            System.out.println("[");
+            System.out.print("  {");
+            for (int i = 0; i < results.size(); i++) {
+                Result r = results.get(i);
+                if (i > 0) System.out.print(", ");
+                System.out.printf("\"%s_throughput\": %.2f, \"%s_latency_p50\": %.2f, \"%s_latency_p99\": %.2f",
+                        r.operation, r.throughput, r.operation, r.latencyP50, r.operation, r.latencyP99);
+            }
+            System.out.println("}");
+            System.out.println("]");
+        } else {
+            try (PrintWriter csv = new PrintWriter(new FileWriter(filename))) {
+                csv.println(header);
+                csv.println(values);
+            }
+
+            System.out.println("Artemis results written to " + filename);
+            System.out.println();
+            System.out.println("=== " + filename + " ===");
+            System.out.println(header);
+            System.out.println(values);
+        }
     }
 }

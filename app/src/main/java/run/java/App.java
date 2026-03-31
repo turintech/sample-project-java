@@ -103,6 +103,7 @@ public class App {
         sort();
 
         System.out.println("Running benchmarks...");
-        benchmark.Benchmark.run();
+        String format = args.length > 0 ? args[0] : "csv";
+        benchmark.Benchmark.run(format);
     }
 }
