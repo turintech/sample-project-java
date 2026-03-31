@@ -21,6 +21,16 @@ Run Unit Tests:
 ./gradlew test
 ```
 
-Run Benchmarking:
+Run Benchmarking (CSV output by default):
 
-(will be added later)
+```shell
+./gradlew run
+```
+
+Run Benchmarking with JSON output:
+
+```shell
+./gradlew run --args="json"
+```
+
+Results are written to `artemis_results.csv` or `artemis_results.json` depending on the format. Each row/object represents one full benchmark execution with all operations as columns (e.g. `sumRange_throughput`, `sumRange_latency_p50`, `sumRange_latency_p99`, etc.).
