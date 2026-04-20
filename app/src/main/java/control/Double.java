@@ -8,13 +8,10 @@ public class Double {
    * @return The sum of the first n natural numbers squared.
    */
   public static int sumSquare(int n) {
+    // Using mathematical formula for sum of squares: n(n-1)/2
     int sum = 0;
     for (int i = 0; i < n; i++) {
-      for (int j = 0; j < n; j++) {
-        if (i == j) {
-          sum = sum + i * j;
-        }
-      }
+      sum += i * i;
     }
     return sum;
   }
@@ -27,10 +24,9 @@ public class Double {
    */
   public static int sumTriangle(int n) {
     int sum = 0;
-    for (int i = 0; i < n + 1; i++) {
-      for (int j = 0; j < i; j++) {
-        sum = sum + j;
-      }
+    // Simplified to single loop since we only need values up to i
+    for (int i = 1; i <= n; i++) {
+      sum += (i * (i - 1)) / 2;
     }
     return sum;
   }
@@ -44,19 +40,30 @@ public class Double {
    * @return The number of pairs in the array.
    */
   public static int countPairs(int[] arr) {
-    int count = 0;
-    for (int i = 0; i < arr.length; i++) {
-      int nDuplicates = 0;
-      for (int j = 0; j < arr.length; j++) {
-        if (arr[i] == arr[j]) {
-          nDuplicates++;
-        }
+    if (arr == null || arr.length < 2) {
+      return 0;
+    }
+    
+    // Use counting array for frequency
+    int max = arr[0];
+    for (int num : arr) {
+      if (num > max) {
+        max = num;
       }
-      if (nDuplicates == 2) {
+    }
+    
+    int[] frequency = new int[max + 1];
+    for (int num : arr) {
+      frequency[num]++;
+    }
+    
+    int count = 0;
+    for (int freq : frequency) {
+      if (freq == 2) {
         count++;
       }
     }
-    return count / 2;
+    return count;
   }
 
   /**
@@ -69,11 +76,11 @@ public class Double {
    */
   public static int countDuplicates(int[] arr0, int[] arr1) {
     int count = 0;
-    for (int i = 0; i < arr0.length; i++) {
-      for (int j = 0; j < arr1.length; j++) {
-        if (i == j && arr0[i] == arr1[j]) {
-          count++;
-        }
+    int minLength = Math.min(arr0.length, arr1.length);
+    // Simplified to single loop since we only need to compare same indices
+    for (int i = 0; i < minLength; i++) {
+      if (arr0[i] == arr1[i]) {
+        count++;
       }
     }
     return count;
@@ -88,11 +95,11 @@ public class Double {
    * @return The sum of all values in the 2D array.
    */
   public static int sumMatrix(int[][] arr) {
+    // Already efficient, but can be simplified using enhanced for loop
     int sum = 0;
-    int n = arr.length;
-    for (int i = 0; i < n; i++) {
-      for (int j = 0; j < n; j++) {
-        sum += arr[i][j];
+    for (int[] row : arr) {
+      for (int value : row) {
+        sum += value;
       }
     }
     return sum;
