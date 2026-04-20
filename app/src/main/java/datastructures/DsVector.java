@@ -1,4 +1,7 @@
 package datastructures;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import java.util.Vector;
 
@@ -32,25 +35,16 @@ public class DsVector {
     return indices;
   }
 
-  /**
+/**
    * Sorts the vector in ascending order
    *
    * @param v the vector to be sorted
    * @return the sorted vector
-   */
+   */ 
   public static Vector<Integer> sortVector(Vector<Integer> v) {
-    Vector<Integer> ret = new Vector<Integer>(v);
-
-    for (int i = 0; i < ret.size(); i++) {
-      for (int j = 0; j < ret.size() - 1; j++) {
-        if (ret.get(j) > ret.get(j + 1)) {
-          int temp = ret.get(j);
-          ret.set(j, ret.get(j + 1));
-          ret.set(j + 1, temp);
-        }
-      }
-    }
-    return ret;
+    List<Integer> list = new ArrayList<>(v);
+    Collections.sort(list);
+    return new Vector<>(list);
   }
 
   /**
