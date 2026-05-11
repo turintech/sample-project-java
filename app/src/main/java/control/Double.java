@@ -1,5 +1,8 @@
 package control;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Double {
   /**
    * Sums all values squared from 0 to n
@@ -44,19 +47,18 @@ public class Double {
    * @return The number of pairs in the array.
    */
   public static int countPairs(int[] arr) {
+    Map<Integer, Integer> frequencies = new HashMap<>();
+    for (int value : arr) {
+      frequencies.merge(value, 1, Integer::sum);
+    }
+
     int count = 0;
-    for (int i = 0; i < arr.length; i++) {
-      int nDuplicates = 0;
-      for (int j = 0; j < arr.length; j++) {
-        if (arr[i] == arr[j]) {
-          nDuplicates++;
-        }
-      }
-      if (nDuplicates == 2) {
+    for (int frequency : frequencies.values()) {
+      if (frequency == 2) {
         count++;
       }
     }
-    return count / 2;
+    return count;
   }
 
   /**
