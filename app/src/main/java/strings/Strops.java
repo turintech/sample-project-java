@@ -2,12 +2,16 @@ package strings;
 
 public class Strops {
   /**
-   * Reverses a string
+   * Reverses a string.
    *
-   * @param str The string to reverse.
+   * @param str The string to reverse. Must not be null.
    * @return The reversed string.
+   * @throws IllegalArgumentException if {@code str} is null.
    */
   public String reverse(String str) {
+    if (str == null) {
+      throw new IllegalArgumentException("Input string must not be null");
+    }
     StringBuilder reversed = new StringBuilder();
     for (int i = str.length() - 1; i >= 0; i--) {
       reversed.append(str.charAt(i));
@@ -16,12 +20,16 @@ public class Strops {
   }
 
   /**
-   * Checks if a string is a palindrome
+   * Checks if a string is a palindrome.
    *
-   * @param str The string to check.
-   * @return True if the string is a palindrome, false otherwise.
+   * @param str The string to check. Must not be null.
+   * @return True if the string is a palindrome, false otherwise. Returns false for empty strings.
+   * @throws IllegalArgumentException if {@code str} is null.
    */
   public boolean isPalindrome(String str) {
+    if (str == null) {
+      throw new IllegalArgumentException("Input string must not be null");
+    }
     if (str.length() == 0) {
       return false;
     }
