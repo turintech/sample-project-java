@@ -46,6 +46,7 @@ public class Single {
    * @throws IllegalArgumentException if m is zero.
    */
   public static int sumModulus(int n, int m) {
+    // Validate first so modulo by zero produces a clearer exception than % would.
     if (m == 0) {
       throw new IllegalArgumentException("Modulus must be non-zero");
     }
