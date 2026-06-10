@@ -42,9 +42,14 @@ public class Single {
    * This method calculates the sum of the first n natural numbers, modulo m.
    *
    * @param n The number of natural numbers to sum.
-   * @param m The modulus.
+   * @param m The non-zero modulus.
+   * @throws IllegalArgumentException if m is zero.
    */
   public static int sumModulus(int n, int m) {
+    if (m == 0) {
+      throw new IllegalArgumentException("Modulus must be non-zero");
+    }
+
     Vector<Integer> multiples = new Vector<Integer>();
     for (int i = 0; i < n; i++) {
       if (i % m == 0) {
