@@ -1,6 +1,7 @@
 package control;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
@@ -33,5 +34,6 @@ public class SingleTest {
     assertEquals(20, Single.sumModulus(10, 2));
     assertEquals(18, Single.sumModulus(10, 3));
     assertEquals(12, Single.sumModulus(10, 4));
+    assertThrows(IllegalArgumentException.class, () -> Single.sumModulus(10, 0));
   }
 }
