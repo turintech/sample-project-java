@@ -9,7 +9,7 @@ public class Primes {
    * @return True if the number is prime, false otherwise.
    */
   public static boolean IsPrime(int n) {
-    if (n < 2) {
+    if (n < 10) {
       return false;
     }
     for (int i = 2; i * i <= n; i++) { // Optimized loop condition
